@@ -21,9 +21,26 @@ body {
     margin-bottom: 60px;
 }
 
-header nav, .footer {
-    background-color: #fff7f7 !important;
+a {
+    color: #E04149;
 }
+
+    a:hover {
+        color: #CD212A;
+    }
+
+.menu .navbar, .menu footer, .takeaway .navbar, .takeaway footer {
+    background-color: #fff7f7 !important;
+    border: 1px solid #dee2e6 !important
+}
+
+    .menu footer span, .takeaway footer span {
+        color: #6c757d !important;
+    }
+
+    .menu .navbar .nav-item a, .menu .navbar .navbar-brand, .takeaway .navbar .nav-item a, .takeaway .navbar .navbar-brand {
+        color: black !important;
+    }
 
 @media (min-width: 576px) {
     .navbar-expand-sm .navbar-nav {
@@ -36,6 +53,19 @@ header nav, .footer {
         padding-right: 1rem;
         padding-left: 1rem;
     }
+}
+
+.menu main.container, .takeaway main.container {
+    width: 100%;
+    padding-right: var(--bs-gutter-x, .75rem);
+    padding-left: var(--bs-gutter-x, .75rem);
+    margin-right: auto;
+    margin-left: auto;
+    max-width: initial;
+}
+
+.menu .card .btn-primary {
+    display: none;
 }
 
 .home main {
@@ -65,7 +95,7 @@ header nav, .footer {
     box-shadow: none !important;
 }
 
-.btn-primary {
+/*.btn-primary {
     color: #fff;
     background-color: #ff6347;
     border-color: #ff6347;
@@ -73,17 +103,236 @@ header nav, .footer {
     box-shadow: none !important;
 }
 
-.btn-primary:hover, .btn-primary:focus {
-    background-color: #ff4500;
-    border-color: #ff4500;
-}
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: #ff4500;
+        border-color: #ff4500;
+    }
 
     .btn-primary:focus {
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0 0 0 4px rgba(255, 116, 69, 0.5) !important;
+        box-shadow: 0 0 0 2px #ffffff80, 0 0 0 4px #ff744580 !important
     }
 
     .btn-primary:active {
         background-color: #ff4500;
         border-color: #ff4500;
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0 0 0 4px rgba(255, 116, 69, 0.5) !important;
+        box-shadow: 0 0 0 2px #ffffff80, 0 0 0 4px #ff744580 !important
     }
+*/
+.btn-primary {
+    color: #fff;
+    background-color: #CD212A;
+    border-color: #CD212A;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    box-shadow: none !important;
+}
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: #A11A21;
+        border-color: #A11A21;
+    }
+
+    .btn-primary:focus {
+        box-shadow: 0 0 0 2px #ffffff80, 0 0 0 4px #FF4D4D80 !important
+    }
+
+    .btn-primary:active {
+        background-color: #A11A21;
+        border-color: #A11A21;
+        box-shadow: 0 0 0 2px #ffffff80, 0 0 0 4px #FF4D4D80 !important
+    }
+
+.btn-secondary {
+    color: #fff;
+    background-color: #008C45;
+    border-color: #008C45;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    box-shadow: none !important;
+}
+
+    .btn-secondary:hover, .btn-secondary:focus {
+        background-color: #00592C;
+        border-color: #00592C;
+    }
+
+    .btn-secondary:focus {
+        box-shadow: 0 0 0 2px #ffffff80, 0 0 0 4px #00b16a80 !important
+    }
+
+    .btn-secondary:active {
+        background-color: #00592C;
+        border-color: #00592C;
+        box-shadow: 0 0 0 2px #ffffff80, 0 0 0 4px #00b16a80 !important
+    }
+
+.nav-menu .nav-tabs {
+    display: flex;
+    justify-content: space-between;
+    border: 0;
+}
+
+    .nav-menu .nav-tabs .nav-item.show .nav-link, .nav-menu .nav-tabs .nav-link.active {
+        color: #CD212A;
+        border: 0;
+        border-bottom: 1px solid #CD212A !important;
+        padding: 0 0 .1rem;
+        margin: .5rem 1rem;
+    }
+
+.nav-menu .nav-link {
+    color: #495057;
+    border: 0 !important;
+    box-shadow: none !important;
+    white-space: nowrap;
+}
+
+    .nav-menu .nav-link:focus, .nav-link:hover, .nav-link:active {
+        color: #CD212A;
+    }
+
+.nav-menu.tab-content {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.nav-menu .nav-item {
+    flex: 1;
+    text-align: center;
+}
+
+.nav-menu.tab-content > .tab-pane.active {
+    min-width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.menu-tab .card {
+    min-width: 18rem;
+    max-width: 18rem;
+    scroll-snap-align: start;
+}
+
+.card-body {
+    text-align: center;
+}
+
+.card-img-top {
+    height: 15rem;
+    object-fit: cover;
+    object-position: center;
+}
+
+.menu-tab .card-text {
+    width: 50%;
+}
+
+/* For WebKit-based browsers (Chrome, Safari, Opera) */
+/* Customize the scrollbar */
+.nav-menu::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+/* Handle */
+.nav-menu::-webkit-scrollbar-thumb {
+    background-color: #FF4D4D80; /* Color of the scrollbar handle */
+    border-radius: 4px; /* Rounded corners of the handle */
+}
+
+/* Track */
+.nav-menu::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the scrollbar track */
+}
+
+/* Handle on hover */
+.nav-menu::-webkit-scrollbar-thumb:hover {
+    background-color: #CD212A; /* Color of the scrollbar handle on hover */
+}
+
+/* Track on hover */
+.nav-menu::-webkit-scrollbar-track:hover {
+    background: #ddd; /* Color of the scrollbar track on hover */
+}
+
+/* Corner */
+.nav-menu::-webkit-scrollbar-corner {
+    background: transparent; /* Hide the scrollbar corner */
+}
+
+
+/*.delivery-select {
+    margin-left: -33px !important;
+    width: calc(100% + 33px) !important;
+    padding-left: 33px !important;
+    background-color: transparent;
+}*/
+
+
+#myDeliveryCost {
+    display: none;
+    position: absolute;
+    z-index: auto;
+}
+
+.delivery-popup-container {
+    background-color: white;
+    border-radius: 24px;
+    box-sizing: border-box;
+    max-width: calc(100% - 0.5em);
+    min-width: calc(100% - 1em);
+    max-height: calc(100% - 1em);
+    padding: 15px 15px 12px;
+    position: fixed;
+    z-index: 50000;
+    display: flex;
+    justify-content: center;
+    top: 50%;
+    z-index: 10000;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+@media screen and (min-width: 768px) {
+    .delivery-popup-container {
+        padding: 40px 45px 35px;
+        min-width: 400px;
+        max-width: 550px;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .delivery-popup-container, .delivery-popup {
+        overflow-y: scroll;
+    }
+}
+
+.delivery-popup {
+    padding: 20px 15px 16px;
+}
+
+    .delivery-popup .brown-button {
+        height: 48px;
+        width: 92px;
+    }
+
+    .delivery-popup .button {
+        font-size: 18px;
+    }
+
+
+.black-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 200vh;
+    width: 200vw;
+    background-color: #000000c0;
+    z-index: 4000;
+    cursor: pointer;
+}

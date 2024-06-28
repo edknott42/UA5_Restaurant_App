@@ -3,3 +3,42 @@
 *@
 @{
 }
+
+<div class="col p-0 m-0 row">
+    <div class="col-12 p-0 mb-3 m-0 row">
+        <div class="col-md-9 p-0 m-0">
+            <nav class="nav-menu">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="starters-tab" data-toggle="tab" href="#starters" role="tab" aria-controls="starters" aria-selected="true">Starters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="false">Mains</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="dessert-tab" data-toggle="tab" href="#dessert" role="tab" aria-controls="dessert" aria-selected="false">Desserts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="sides-tab" data-toggle="tab" href="#sides" role="tab" aria-controls="sides" aria-selected="false">Sides</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="drinks-tab" data-toggle="tab" href="#drinks" role="tab" aria-controls="drinks" aria-selected="false">Drinks</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="col-md-9 p-0 mt-md-4 m-0">
+            <partial name="_menu.cshtml">
+        </div>
+        <div class="col-md-3 ps-md-5 p-0 mt-4 m-0 d-flex flex-wrap flex-md-column gap-2">
+            <div class="d-flex flex-wrap justify-content-center justify-content-md-start justify-content-xxl-center gap-1">
+                <button type="button" id="dietaryRequirementsBtn" class="btn btn-secondary"> Enter Dietary Requirements</button>
+                <div class="d-flex flex-wrap gap-1">
+                    <a type="button" class="btn btn-primary" asp-area="" asp-controller="Booking" asp-action="Index"> Book a Table</a>
+                    <a type="button" class="btn btn-primary" asp-area="" asp-controller="Takeaway" asp-action="Index"> Order a Takeaway</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
