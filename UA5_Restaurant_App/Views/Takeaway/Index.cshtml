@@ -1,10 +1,11 @@
-﻿@{
-    String orderModel = "";
-}
+﻿
+@using UA5_Restaurant_App.Models;
+@model TakeawayFormModel
+
 
 <div class="col p-0 m-0 row">
     <div class="col-12 p-0 mb-3 m-0 row">
-        <div class="col-md-9 p-0 m-0">
+        @* <div class="col-md-9 p-0 m-0">
             <nav class="nav-menu">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
@@ -24,21 +25,39 @@
                     </li>
                 </ul>
             </nav>
+        </div> *@
+
+        <div class="col-md-9 sticky-top bg-white">
+            <nav id="menu-navbar" class="nav-menu border-bottom">
+
+
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active" href="#Starters">Starters</a></li>
+
+                    <li class="nav-item"><a class="nav-link" href="#Mains">Mains</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#Sides">Sides</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#Desserts">Desserts</a></li>
+                </ul>
+
+            </nav>
         </div>
 
-        <div class="col-md-9 p-0 mt-md-4 m-0">
+        <div class="col-md-9 p-0 mt-md-2 m-0">
             <partial name="~/Views/Menu/_menu.cshtml">
         </div>
-        <div class="col-md-3 ps-md-5 p-0 mt-4 m-0 d-flex flex-wrap flex-md-column align-items-md-center gap-2">
-            <div class="col-12 p-0 m-0 d-flex">
-                <button type="button" id="dietaryRequirementsBtn" class="btn btn-secondary  mx-auto"> Enter Dietary Requirements</button>
-                @* <div class="d-flex flex-wrap gap-1">
-                <button type="button" id="bookTableBtn" class="btn btn-primary"> Book a Table</button>
-                <button type="button" id="orderTakeawayBtn" class="btn btn-primary"> Order a Takeaway</button>
-                </div> *@
-            </div>
-            <div class="col-12 col-md-9 p-0 m-0 row gap-2">
-                <div class="col-md-12 col-7 p-0 m-0 d-flex mx-auto">
+        <div class="col-md-3 ps-md-5 p-0 mt-4 m-0 d-flex flex-wrap flex-md-column align-items-md-center gap-2 end-0">
+            <div class="col-12 col-md-9 row gap-2 order-summary sticky-top">
+                <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
+                    <button type="button" class="btn btn-secondary d-flex border w-100 deitaryButton" data-toggle="modal" data-target="#dietaryModal">
+                        <i class="fa-solid fa-utensils m-auto ms-0"></i>
+                        <span class="me-auto">Enter Dietary Requirements</span>
+                    </button>
+                    @* <div class="d-flex flex-wrap gap-1">
+                    <button type="button" id="bookTableBtn" class="btn btn-primary"> Book a Table</button>
+                    <button type="button" id="orderTakeawayBtn" class="btn btn-primary"> Order a Takeaway</button>
+                    </div> *@
+                </div>
+                <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Card title</h5>
@@ -49,21 +68,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-5 p-0 m-0 mx-auto">
+                <div class="col-md-12 col-11 p-0 m-0 mx-auto">
                     <div class="card">
                         <div class="card-body">
-                            @* <div class="col-12 p-0 m-0 row border rounded mb-2">
-                                <div class="col-2 p-0 m-0 d-flex"> <i class="fas fa-car m-auto" aria-hidden="true"></i></div>
-                                <div class="col-10 p-0 m-0">
-                                    <select class="form-select delivery-select border-0 w-100 ms-auto ps-0">
-                                        <option>
-
-                                            Delivery
-                                        </option>
-                                    </select>
-                                </div>
-                            </div> *@
-                            <button type="button" class="btn btn-light d-flex border w-100" onclick="showDeliveryPopup()"><i class="fa-solid fa-location-dot m-auto ms-0" aria-hidden="true"></i><span class="me-auto">Enter delivery details</span></button>
+                            <button type="button" class="btn btn-light d-flex border w-100 deliveryButton" data-toggle="modal" data-target="#deliveryModal">
+                                <i class="fa-solid fa-location-dot m-auto ms-0" aria-hidden="true"></i>
+                                <span class="me-auto">Enter delivery details</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-11 p-0 m-0 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <button type="button" class="btn btn-secondary d-flex border w-100" >
+                                <i class="fa-solid fa-cart-shopping m-auto ms-0" aria-hidden="true"></i>
+                                <span class="me-auto">Checkout</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -72,105 +93,91 @@
     </div>
 </div>
 
-
-
-
-
-<div id="myDeliveryCost">
-    <div class="delivery-popup-container">
-        <div class="delivery-popup">
-            <div class="header">
-                <h2 class="mb-4">Calculate shipping costs</h2>
+<!-- Deitary Modal -->
+<div class="modal fade" id="dietaryModal" tabindex="-1" role="dialog" aria-labelledby="dietaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0">
+                <h5 class="modal-title mb-4 display-7 w-100" id="dietaryModallLabel">Enter dietary requirements</h5>
+                <button type="button" class="close p-0 pb-3 m-auto deitaryButton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="content">
-                <form role="form">
+            <div class="modal-body pt-0">
+                <partial name="~/Views/Shared/_dietaryInfo.cshtml">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary deitaryButton" data-dismiss="modal">Close</button>
+                <button type="button" id="saveDietaryButton" class="btn btn-secondary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delivery Modal -->
+<div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0">
+                <h5 class="modal-title mb-4 display-6 w-100" id="deliveryModallLabel">Enter delivery details</h5>
+                <button type="button" class="close p-0 pb-3 m-auto deliveryButton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-0">
+                <form role="form" id="deliveryForm">
                     <div class="form-group">
+                       <div class="col-12 p-0 m-0 my-3 row">
+                           <div class="col-6 ps-0 pe-1 m-0">
+                                <input id="first_name" placeholder="First Name" type="text" class="form-control" autocomplete="on" />
+                           </div>
+                            <div class="col-6 pe-0 ps-1 m-0">
+                                <input id="last_name" placeholder="Last Name" type="text" class="form-control" autocomplete="on" />
+                            </div>
+                       </div>
                         <div class="my-3">
-                            <input id="autocomplete" placeholder="Enter your address" type="text" class="form-control" />
+                            <input id="email" placeholder="Email address" type="email" class="form-control" autocomplete="on" />
+                        </div>
+                        <div class="my-3">
+                            <input id="autocomplete" autocomplete="off" placeholder="Enter your address" type="text" class="form-control" />
                         </div>
 
                         <div class="my-3">
-                            <input id="street_number" disabled="true" class="form-control" placeholder="Number" />
+                            <input id="postal_town" class="form-control" placeholder="Town/City" />
+                        </div>
+
+
+                        <div class="my-3">
+                            <input id="administrative_area_level_2" class="form-control" placeholder="County" />
                         </div>
 
                         <div class="my-3">
-                            <input id="route" disabled="true" class="form-control" placeholder="Street" />
+                            <input id="postal_code" class="form-control" placeholder="Postal Code" />
                         </div>
 
-                        <div class="my-3">
-                            <input id="postal_town" disabled="true" class="form-control" placeholder="Town/City" />
-                        </div>
-
-                        <div class="my-3">
-                            <input id="postal_code" disabled="true" class="form-control" placeholder="Postal Code" />
-                        </div>
                     </div>
                     <div class="mt-3">
                         <p class="m-0">
-                            Delivery cost: £<span id="ShippingCostID">2.00 </span>
+                            <strong>Delivery cost: </strong><span id="deliveryCostID">Please enter an address </span>
+                        </p>
+                        <p class="m-0">
+                           <span id="deliveryAvailableID"> </span>
                         </p>
                     </div>
                 </form>
             </div>
-            <div class="d-flex flex-row justify-content-between text-left gap-5 mt-4">
-                <button class="button btn btn-primary" onclick="hideDeliveryPopup()" type="button">Cancel</button>
-                <button type="button" class="btn btn-secondary updateShipping">Apply</button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary deliveryButton" data-dismiss="modal">Close</button>
+                <button type="button" id="saveDeliveryButton" class="btn btn-secondary">Save Changes</button>
             </div>
         </div>
     </div>
-    <div onclick="hideDeliveryPopup()" class="black-gradient"></div>
 </div>
 
-@section Scripts
-{
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGpbdsy42seNGf2rITGz9CYqKTT8JWPa4&libraries=places"></script>
-    <script>
-        function initAutocomplete() {
-            var autocomplete = new google.maps.places.Autocomplete(
-                document.getElementById('autocomplete'),
-                { types: ['geocode'] }
-            );
 
-            autocomplete.addListener('place_changed', function () {
-                var place = autocomplete.getPlace();
-                for (var component in componentForm) {
-                    document.getElementById(component).value = '';
-                    document.getElementById(component).disabled = false;
-                }
 
-                for (var i = 0; i < place.address_components.length; i++) {
-                    var addressType = place.address_components[i].types[0];
-                    if (componentForm[addressType]) {
-                        var val = place.address_components[i][componentForm[addressType]];
-                        document.getElementById(addressType).value = val;
-                    }
-                }
-            });
-        }
 
-        function geolocate() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var geolocation = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    var circle = new google.maps.Circle({
-                        center: geolocation,
-                        radius: position.coords.accuracy
-                    });
-                    autocomplete.setBounds(circle.getBounds());
-                });
-            }
-        }
+<gmpx-api-loader key="AIzaSyClr_uuxlkfyRMISi77lYUshO4f2_nfG9Y" solution-channel="GMP_QB_addressselection_v3_cAC">
+</gmpx-api-loader>
 
-        var componentForm = {
-            street_number: 'long_name',
-            route: 'long_name',
-            postal_town: 'long_name',
-            postal_code: 'short_name'
-        };
-
-        google.maps.event.addDomListener(window, 'load', initAutocomplete);
-    </script>
-}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClr_uuxlkfyRMISi77lYUshO4f2_nfG9Y&libraries=places"></script>

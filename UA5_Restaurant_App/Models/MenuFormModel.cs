@@ -4,9 +4,6 @@ namespace UA5_Restaurant_App.Models
 {
     public class MenuFormModel : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        string administrative_area_level_2 { get; set; }
     }
 }

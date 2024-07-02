@@ -17,6 +17,11 @@ html {
     min-height: 100%;
 }
 
+header {
+    position: relative;
+    z-index: 2000;
+}
+
 body {
     margin-bottom: 60px;
 }
@@ -28,6 +33,7 @@ a {
     a:hover {
         color: #CD212A;
     }
+
 
 .menu .navbar, .menu footer, .takeaway .navbar, .takeaway footer {
     background-color: #fff7f7 !important;
@@ -187,9 +193,10 @@ a {
 
     .nav-menu .nav-link:focus, .nav-link:hover, .nav-link:active {
         color: #CD212A;
+        background-color: #f0f0f0;
     }
 
-.nav-menu.tab-content {
+.menu-section-container {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -201,7 +208,7 @@ a {
     text-align: center;
 }
 
-.nav-menu.tab-content > .tab-pane.active {
+.menu-section {
     min-width: 100%;
     display: flex;
     flex-direction: row;
@@ -211,7 +218,7 @@ a {
     margin-bottom: 1rem;
 }
 
-.menu-tab .card {
+.menu-scrollspy .card {
     min-width: 18rem;
     max-width: 18rem;
     scroll-snap-align: start;
@@ -233,33 +240,33 @@ a {
 
 /* For WebKit-based browsers (Chrome, Safari, Opera) */
 /* Customize the scrollbar */
-.nav-menu::-webkit-scrollbar {
+.menu-section-container::-webkit-scrollbar {
     width: 8px; /* Width of the scrollbar */
 }
 
 /* Handle */
-.nav-menu::-webkit-scrollbar-thumb {
+.menu-section-container::-webkit-scrollbar-thumb {
     background-color: #FF4D4D80; /* Color of the scrollbar handle */
     border-radius: 4px; /* Rounded corners of the handle */
 }
 
 /* Track */
-.nav-menu::-webkit-scrollbar-track {
+.menu-section-container::-webkit-scrollbar-track {
     background: #f1f1f1; /* Color of the scrollbar track */
 }
 
 /* Handle on hover */
-.nav-menu::-webkit-scrollbar-thumb:hover {
+.menu-section-container::-webkit-scrollbar-thumb:hover {
     background-color: #CD212A; /* Color of the scrollbar handle on hover */
 }
 
 /* Track on hover */
-.nav-menu::-webkit-scrollbar-track:hover {
+.menu-section-container::-webkit-scrollbar-track:hover {
     background: #ddd; /* Color of the scrollbar track on hover */
 }
 
 /* Corner */
-.nav-menu::-webkit-scrollbar-corner {
+.menu-section-container::-webkit-scrollbar-corner {
     background: transparent; /* Hide the scrollbar corner */
 }
 
@@ -271,68 +278,63 @@ a {
     background-color: transparent;
 }*/
 
-
-#myDeliveryCost {
-    display: none;
-    position: absolute;
-    z-index: auto;
-}
-
-.delivery-popup-container {
-    background-color: white;
-    border-radius: 24px;
-    box-sizing: border-box;
-    max-width: calc(100% - 0.5em);
-    min-width: calc(100% - 1em);
-    max-height: calc(100% - 1em);
-    padding: 15px 15px 12px;
-    position: fixed;
-    z-index: 50000;
-    display: flex;
-    justify-content: center;
-    top: 50%;
-    z-index: 10000;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    flex-direction: column;
-    flex-wrap: nowrap;
-}
-
-@media screen and (min-width: 768px) {
-    .delivery-popup-container {
-        padding: 40px 45px 35px;
-        min-width: 400px;
-        max-width: 550px;
-    }
-}
-
-@media screen and (max-width:768px) {
-    .delivery-popup-container, .delivery-popup {
-        overflow-y: scroll;
-    }
-}
-
-.delivery-popup {
-    padding: 20px 15px 16px;
-}
-
-    .delivery-popup .brown-button {
-        height: 48px;
-        width: 92px;
-    }
-
-    .delivery-popup .button {
-        font-size: 18px;
-    }
-
-
-.black-gradient {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 200vh;
-    width: 200vw;
-    background-color: #000000c0;
-    z-index: 4000;
+button.close {
+    padding: 0;
     cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+}
+
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.2;
+    filter: alpha(opacity = 20);
+}
+
+.modal-title {
+    font-weight: 400;
+}
+
+.modal-footer {
+    justify-content: space-between;
+}
+
+.pac-container {
+    z-index: 500000000;
+}
+
+
+.display-7 {
+    font-size: calc(1.5rem + 0.4vw);
+    font-weight: 300;
+    line-height: 1.2;
+}
+
+@media (min-width: 1200px) {
+    .display-7 {
+        font-size: 2.25rem;
+    }
+}
+
+.menu-scrollspy {
+}
+
+.sticky-top {
+    padding: .25rem 0 0;
+    margin: -.25rem 0 0;
+}
+
+    .sticky-top .nav-menu {
+        margin-bottom: 0.25rem;
+    }
+
+.order-summary {
+    padding: 3rem 0 0;
+    margin: -3rem 0 0;
 }
