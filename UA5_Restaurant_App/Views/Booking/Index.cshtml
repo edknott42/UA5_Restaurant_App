@@ -4,36 +4,93 @@
 @{
 }
 
+<div class="col-12 p-0 m-0 row">
+    <div class="col-md-7 p-0 m-0 d-none d-md-block">
+        <img class="img-fluid h-100" src="https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    </div>
+    <div class="col-md-5 p-4 m-0 d-flex flex-column text-center text-white bg-dark">
+        <h1 class="display-6 text-start"><strong>Book a Table</strong></h1>
+        <h2 class="display-7 mb-3 text-start">Fill in your details</h2>
 
-<div class="text-center text-white">
-    <h1 class="display-4 text-start"><strong>Book a Table</strong></h1>
-    <h2 class="display-5 text-start">Fill in your details</h2>
-    <h3 class="display-6 text-start">Contact Info</h3>
-    <form>
-        <div class="col-12 p-0 my-3 m-0 row">
-            <label for="first" class="text-start p-0">Name</label>
-            <div class="col-6 ps-0 m-0"><input type="text" name="first" placeholder="First" value="" class="form-control" /></div>
-            <div class="col-6 pe-0 m-0"><input type="text" name="last" placeholder="Last" value="" class="form-control" /></div>
+        <form>
+            <div class="col-12 p-0 my-4 m-0 row">
+                <label for="name" class="form-label text-start p-0" hidden="">Name</label>
+                <input type="text" name="name" id="name" placeholder="Your Name" value="" class="form-control" autocomplete="on">
+
+            </div>
+            <div class="col-12 p-0 my-4 m-0 row">
+                <div class="col-6 ps-0 m-0 text-start ">
+                    <label for="email_address" class="form-label p-0" hidden="">Email</label>
+                    <input type="text" name="email_address" id="email_address" value="" class="form-control" placeholder="Your Email Address" autocomplete="on">
+                </div>
+                <div class="col-6 pe-0 m-0 text-start">
+                    <label for="phone_number" class="form-label p-0" hidden="">Phone</label>
+                    <input type="text" name="phone_number" id="phone_number" value="" class="form-control" placeholder="Your Phone Number" autocomplete="on">
+                </div>
+            </div>
+
+            <div class="col-12 p-0 my-4 m-0 row">
+                <div class="col-6 ps-0 m-0 text-start ">
+                    <label for="booking_date" class="form-label p-0">Check in</label>
+                    <input type="date" name="booking_date" id="booking_date" value="" class="form-control" autocomplete="on">
+                </div>
+                <div class="col-6 pe-0 m-0 d-flex flex-column text-start">
+                    <label for="booking_time" class="form-label p-0">Check in</label>
+                    <input type="hidden" name="booking_time" id="booking_time" value="" class="form-control" autocomplete="on">
+                    <div class="mt-auto">
+                        <select class="form-control ml-0" id="time-select">
+                            <option value="1600">4:00 PM</option>
+                            <option value="1630">4:30 PM</option>
+                            <option value="1700">5:00 PM</option>
+                            <option value="1730">5:30 PM</option>
+                            <option value="1800">6:00 PM</option>
+                            <option value="1830">6:30 PM</option>
+                            <option value="1900">7:00 PM</option>
+                            <option value="1930">7:30 PM</option>
+                            <option value="2000">8:00 PM</option>
+                            <option value="2030">8:30 PM</option>
+                            <option value="2100">9:00 PM</option>
+                            <option value="2130">9:30 PM</option>
+                            <option value="2200">10:00 PM</option>
+                            <option value="2230">10:30 PM</option>
+                            <option value="2300">11:00 PM</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 p-0 my-4 m-0 row">
+                <label for="guests_no" class="form-label p-0 text-start">Number of guests</label>
+                <input type="number" name="guests_no" id="guests_no" value="" class="form-control" autocomplete="on">
+            </div>
+        </form>
+        <div class="col-12 p-0 m-0 mt-auto row">
+            <button type="button" class="btn btn-secondary d-flex border w-100 dietaryButton mb-2" data-toggle="modal" data-target="#dietaryModal">
+                <i class="fa-solid fa-utensils m-auto ms-0"></i>
+                <span class="me-auto">Enter Dietary Requirements</span>
+            </button>
+            <button type="submit" class="btn btn-primary d-flex w-100"><i class="fa-regular fa-calendar m-auto ms-0"></i><span class="me-auto">Book Now</span></button>
         </div>
-        <div class="col-12 p-0 my-3 m-0 row">
-            <label for="email_address" class="text-start p-0">Email</label>
-            <input type="text" name="email_address" value="" class="form-control" />
+    </div>
+</div>
+
+<!-- dietary Modal -->
+<div class="modal fade" id="dietaryModal" tabindex="-1" role="dialog" aria-labelledby="dietaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0">
+                <h5 class="modal-title mb-4 display-7 w-100" id="dietaryModallLabel">Enter dietary requirements</h5>
+                <button type="button" class="close p-0 pb-3 m-auto dietaryButton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-0">
+                <partial name="~/Views/Dietary/_dietary.cshtml" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary dietaryButton" data-dismiss="modal">Close</button>
+                <button type="button" id="saveDietaryButton" class="btn btn-secondary">Save Changes</button>
+            </div>
         </div>
-        <div class="col-12 p-0 my-3 m-0 row">
-            <label for="phone_number" class="text-start p-0">Phone</label>
-            <input type="text" name="phone_number" value="" class="form-control" />
-        </div>
-        <h3 class="display-6 text-start">Accomodation Info</h3>
-        <div class="col-12 p-0 my-3 m-0 row">
-            <label for="guests_no" class="text-start p-0">Number of guests</label>
-            <input type="text" name="guests_no" value="" class="form-control" />
-        </div>
-        <div class="col-12 p-0 my-3 m-0 row">
-            <label for="guests_no" class="text-start p-0">Check in</label>
-            <input type="datetime-local" name="guests_no" value="" class="form-control" />
-        </div>
-    </form>
-    <div class="col-12 p-0 m-0 row">
-        <button type="submit" class="btn btn-primary">Book Now</button>
     </div>
 </div>

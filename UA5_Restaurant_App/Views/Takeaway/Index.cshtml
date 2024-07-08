@@ -1,54 +1,16 @@
-﻿
-@using UA5_Restaurant_App.Models;
+﻿@using UA5_Restaurant_App.Models;
 @model TakeawayFormModel
 
 
-<div class="col p-0 m-0 row">
-    <div class="col-12 p-0 mb-3 m-0 row">
-        @* <div class="col-md-9 p-0 m-0">
-            <nav class="nav-menu">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="starters-tab" data-toggle="tab" href="#starters" role="tab" aria-controls="starters" aria-selected="true">Starters</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="false">Mains</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="dessert-tab" data-toggle="tab" href="#dessert" role="tab" aria-controls="dessert" aria-selected="false">Desserts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="sides-tab" data-toggle="tab" href="#sides" role="tab" aria-controls="sides" aria-selected="false">Sides</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="drinks-tab" data-toggle="tab" href="#drinks" role="tab" aria-controls="drinks" aria-selected="false">Drinks</a>
-                    </li>
-                </ul>
-            </nav>
-        </div> *@
-
-        <div class="col-md-9 sticky-top bg-white">
-            <nav id="menu-navbar" class="nav-menu border-bottom">
 
 
-                <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="nav-link active" href="#Starters">Starters</a></li>
-
-                    <li class="nav-item"><a class="nav-link" href="#Mains">Mains</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#Sides">Sides</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#Desserts">Desserts</a></li>
-                </ul>
-
-            </nav>
-        </div>
-
-        <div class="col-md-9 p-0 mt-md-2 m-0">
-            <partial name="~/Views/Menu/_menu.cshtml">
-        </div>
-        <div class="col-md-3 ps-md-5 p-0 mt-4 m-0 d-flex flex-wrap flex-md-column align-items-md-center gap-2 end-0">
-            <div class="col-12 col-md-9 row gap-2 order-summary sticky-top">
+<div class="col-12 p-0 mt-md-2 mb-3 m-0">
+    <div data-bs-spy="scroll" data-bs-target="#menu-navbar" data-bs-offset="0" class="menu-scrollspy m-0 row">
+        <partial name="~/Views/Menu/_menu.cshtml" />
+        <div class="col-md-3 p-0 m-0 d-flex flex-wrap flex-md-column align-items-center">
+            <div class="col-11 col-md-9 row gap-2 order-summary sticky-top mx-auto">
                 <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
-                    <button type="button" class="btn btn-secondary d-flex border w-100 deitaryButton" data-toggle="modal" data-target="#dietaryModal">
+                    <button type="button" class="btn btn-secondary d-flex border w-100 dietaryButton" data-toggle="modal" data-target="#dietaryModal">
                         <i class="fa-solid fa-utensils m-auto ms-0"></i>
                         <span class="me-auto">Enter Dietary Requirements</span>
                     </button>
@@ -58,13 +20,46 @@
                     </div> *@
                 </div>
                 <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
-                    <div class="card">
+                    <div class="card w-100">
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
+                            <h5 class="card-title">Your Basket</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Add or remove items</h6>
+
+                            <div class="row align-items-center my-3 mx-0">
+                                <div class="col-auto p-0 me-1">
+                                    <button type="button" class="close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="col-3 p-0 m-0"><p class="card-text text-start">Pizza</p></div>
+                                <div class="col-auto p-0 m-0"><input type="number" class="input-quantity form-control-sm" data-itemid="" data-basevalue="" /></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
+                    <div class="card w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Your Delivery Details</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <button type="button" class="btn btn-link text-center deliveryButton" data-toggle="modal" data-target="#deliveryModal">
+                                    <u>Enter delivery details</u>
+                                </button>
+                            </h6>
+
+                            <div class="row align-items-center my-3 mx-0">
+                                <div class="col-4 p-0 m-0"><p class="card-text text-start">Name:</p></div>
+                                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourName"></p></div>
+                            </div>
+                            <div class="row align-items-center my-3 mx-0">
+                                <div class="col-4 p-0 m-0"><p class="card-text text-start">Email:</p></div>
+                                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourEmail"></p></div>
+                            </div>
+                            <div class="row align-items-start my-3 mx-0">
+                                <div class="col-4 p-0 m-0"><p class="card-text text-start">Address:</p></div>
+                                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourAddress"></p></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -81,7 +76,7 @@
                 <div class="col-md-12 col-11 p-0 m-0 mx-auto">
                     <div class="card">
                         <div class="card-body">
-                            <button type="button" class="btn btn-secondary d-flex border w-100" >
+                            <button type="button" class="btn btn-secondary d-flex border w-100">
                                 <i class="fa-solid fa-cart-shopping m-auto ms-0" aria-hidden="true"></i>
                                 <span class="me-auto">Checkout</span>
                             </button>
@@ -93,21 +88,22 @@
     </div>
 </div>
 
-<!-- Deitary Modal -->
+
+<!-- dietary Modal -->
 <div class="modal fade" id="dietaryModal" tabindex="-1" role="dialog" aria-labelledby="dietaryModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0">
                 <h5 class="modal-title mb-4 display-7 w-100" id="dietaryModallLabel">Enter dietary requirements</h5>
-                <button type="button" class="close p-0 pb-3 m-auto deitaryButton" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close p-0 pb-3 m-auto dietaryButton" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body pt-0">
-                <partial name="~/Views/Shared/_dietaryInfo.cshtml">
+                <partial name="~/Views/Dietary/_dietary.cshtml" />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary deitaryButton" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary dietaryButton" data-dismiss="modal">Close</button>
                 <button type="button" id="saveDietaryButton" class="btn btn-secondary">Save Changes</button>
             </div>
         </div>
@@ -127,14 +123,14 @@
             <div class="modal-body pt-0">
                 <form role="form" id="deliveryForm">
                     <div class="form-group">
-                       <div class="col-12 p-0 m-0 my-3 row">
-                           <div class="col-6 ps-0 pe-1 m-0">
+                        <div class="col-12 p-0 m-0 my-3 row">
+                            <div class="col-6 ps-0 pe-1 m-0">
                                 <input id="first_name" placeholder="First Name" type="text" class="form-control" autocomplete="on" />
-                           </div>
+                            </div>
                             <div class="col-6 pe-0 ps-1 m-0">
                                 <input id="last_name" placeholder="Last Name" type="text" class="form-control" autocomplete="on" />
                             </div>
-                       </div>
+                        </div>
                         <div class="my-3">
                             <input id="email" placeholder="Email address" type="email" class="form-control" autocomplete="on" />
                         </div>
@@ -161,7 +157,7 @@
                             <strong>Delivery cost: </strong><span id="deliveryCostID">Please enter an address </span>
                         </p>
                         <p class="m-0">
-                           <span id="deliveryAvailableID"> </span>
+                            <span id="deliveryAvailableID"> </span>
                         </p>
                     </div>
                 </form>
@@ -181,3 +177,9 @@
 </gmpx-api-loader>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClr_uuxlkfyRMISi77lYUshO4f2_nfG9Y&libraries=places"></script>
+
+<script>
+    const scrollSpy = new bootstrap.ScrollSpy(document.querySelector('.menu-scrollspy'), {
+        target: '#menu-navbar'
+    });
+</script>

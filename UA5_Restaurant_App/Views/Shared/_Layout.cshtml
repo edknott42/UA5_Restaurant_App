@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Italian Room</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/select2/dist/css/select2.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/UA5_Restaurant_App.styles.css" asp-append-version="true" />
 </head>
@@ -20,6 +21,9 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Menu" asp-action="Index">Menu</a>
                         </li>
                         <li class="nav-item">
@@ -29,7 +33,7 @@
                             <a class="nav-link text-white" asp-area="" asp-controller="Takeaway" asp-action="Index">Place a Takeaway</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Dietary Info</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Dietary" asp-action="Index">Dietary Info</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -50,6 +54,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/select2/dist/js/select2.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/maps.js" asp-append-version="true"></script>
     <script src="https://kit.fontawesome.com/2602e8934e.js" crossorigin="anonymous"></script>

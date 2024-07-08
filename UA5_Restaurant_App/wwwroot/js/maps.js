@@ -109,3 +109,23 @@ $(function () {
         $("#deliveryAvailableID").html(deliveryAvaliable);
     });
 });
+
+$(function () {
+    $("input").on("blur", function () {
+        let firstName = $('#first_name').val();
+        let lastName = $('#last_name').val();
+        let emailAddress = $('#email').val();
+        let addressLine1 = $('#autocomplete').val();
+        let postalTown = $('#postal_town').val();
+        let county = $('#administrative_area_level_2').val();
+        let postalCode = $('#postal_code').val();
+        var address = addressLine1 + "<br />" +
+            postalTown + "<br />" +
+            county + "<br />" +
+            postalCode;
+
+        $('#yourName').text(firstName + " " + lastName);
+        $('#yourEmail').text(emailAddress);
+        $('#yourAddress').html(address);
+    });
+});

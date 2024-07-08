@@ -15,37 +15,9 @@ $('.deliveryButton').on('click', function () {
     $('#deliveryModal').modal('toggle')
 })
 
-$('.deitaryButton').on('click', function () {
+$('.dietaryButton').on('click', function () {
     $('#dietaryModal').modal('toggle')
 })
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Function to update active class based on current hash
-    function updateActiveClass() {
-        var hash = window.location.hash;
-
-        // Remove 'active' class from all nav-links
-        var navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(function (link) {
-            link.classList.remove('active');
-        });
-
-        // Add 'active' class to the nav-link corresponding to the hash
-        var activeLink = document.querySelector('.nav-link[href="' + hash + '"]');
-        if (activeLink) {
-            activeLink.classList.add('active');
-        }
-    }
-
-    // Initial update on page load
-    updateActiveClass();
-
-    // Update on hash change
-    window.addEventListener('hashchange', function () {
-        updateActiveClass();
-    });
-});
 
 
 $('#saveDeliveryButton').on('click', function () {
@@ -80,4 +52,8 @@ $('#deliveryForm').on('submit', function (event) {
             $("#saveDeliveryButton").html('<i class="fa fa-times me-2"></i>Changes Failed');
         }
     });
+});
+
+$("#time-select").select2({
+    minimumResultsForSearch: Infinity
 });

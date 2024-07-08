@@ -8,8 +8,13 @@ html {
     }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-control-sm:focus, .form-check-input:focus, .select2-container--open {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #CD212A;
+}
+
+.form-check-input:checked {
+    background-color: #CD212A;
+    border-color: #CD212A;
 }
 
 html {
@@ -19,7 +24,7 @@ html {
 
 header {
     position: relative;
-    z-index: 2000;
+    z-index: 1020;
 }
 
 body {
@@ -34,6 +39,10 @@ a {
         color: #CD212A;
     }
 
+.img-fluid {
+    object-fit: cover;
+}
+
 
 .menu .navbar, .menu footer, .takeaway .navbar, .takeaway footer {
     background-color: #fff7f7 !important;
@@ -47,6 +56,10 @@ a {
     .menu .navbar .nav-item a, .menu .navbar .navbar-brand, .takeaway .navbar .nav-item a, .takeaway .navbar .navbar-brand {
         color: black !important;
     }
+
+.menu .navbar-toggler-icon, .takeaway .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
 
 @media (min-width: 576px) {
     .navbar-expand-sm .navbar-nav {
@@ -91,6 +104,24 @@ a {
     background-size: cover;
 }
 
+.dietary {
+    background-image: linear-gradient(rgb(0 0 0 / 60%), rgb(0 0 0 / 65%)), url(https://images.unsplash.com/photo-1618807543816-96d6df00de29?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+    background-position: center;
+    background-size: cover;
+}
+
+.bg-dark {
+    background-color: #111 !important
+}
+
+.booking .bg-dark .form-control {
+    background-color: transparent;
+    border: 1.5px solid transparent;
+    border-bottom: 1.5px solid var(--bs-gray);
+    color: #fff;
+    color-scheme: dark;
+}
+
 .form-control {
     background-color: #FFFFFF;
     background-image: none;
@@ -98,8 +129,18 @@ a {
     font-size: 14px;
     min-height: 40px;
     border: 1.5px solid #dcdcdc;
-    box-shadow: none !important;
+    outline: 0;
 }
+
+.form-control-sm {
+    border: 1.5px solid #dcdcdc;
+    outline: 0;
+}
+
+.booking .form-control:focus, .select2-container--open {
+    border-radius: 4px;
+}
+
 
 /*.btn-primary {
     color: #fff;
@@ -149,8 +190,8 @@ a {
 
 .btn-secondary {
     color: #fff;
-    background-color: #008C45;
-    border-color: #008C45;
+    background-color: #008542;
+    border-color: #008542 !important;
     transition: background-color 0.3s ease, border-color 0.3s ease;
     box-shadow: none !important;
 }
@@ -170,18 +211,42 @@ a {
         box-shadow: 0 0 0 2px #ffffff80, 0 0 0 4px #00b16a80 !important
     }
 
+.btn-light {
+    border-color: #DAE0E5;
+}
+
+    .btn-light:hover {
+        background-color: #DAE0E5;
+        border-color: #DAE0E5;
+    }
+
+.btn-link {
+    box-shadow: none !important;
+    outline: none !important;
+    color: #CD212A;
+}
+
+    .btn-link:hover, .btn-link:focus, .btn-link:active {
+        box-shadow: none;
+        outline: none;
+        color: #A11A21;
+    }
+
 .nav-menu .nav-tabs {
     display: flex;
     justify-content: space-between;
     border: 0;
+    margin-bottom: 5px;
+    box-shadow: 0 5px 10px 0px #fff;
+    clip-path: inset(0px 0px -80px 0px);
+    position: relative;
+    z-index: 1020;
 }
 
     .nav-menu .nav-tabs .nav-item.show .nav-link, .nav-menu .nav-tabs .nav-link.active {
         color: #CD212A;
         border: 0;
         border-bottom: 1px solid #CD212A !important;
-        padding: 0 0 .1rem;
-        margin: .5rem 1rem;
     }
 
 .nav-menu .nav-link {
@@ -189,12 +254,15 @@ a {
     border: 0 !important;
     box-shadow: none !important;
     white-space: nowrap;
+    position: relative;
+    z-index: 1020;
+    border-bottom: 1px solid #dee2e6 !important;
 }
 
-    .nav-menu .nav-link:focus, .nav-link:hover, .nav-link:active {
-        color: #CD212A;
-        background-color: #f0f0f0;
-    }
+#menu-navbar .nav-menu .nav-link:focus, #menu-navbar .nav-link:hover, #menu-navbar .nav-link:active {
+    color: #CD212A;
+    background-color: #f0f0f0;
+}
 
 .menu-section-container {
     display: flex;
@@ -218,7 +286,7 @@ a {
     margin-bottom: 1rem;
 }
 
-.menu-scrollspy .card {
+.menu-scrollspy .menu-section-container .card {
     min-width: 18rem;
     max-width: 18rem;
     scroll-snap-align: start;
@@ -238,35 +306,34 @@ a {
     width: 50%;
 }
 
-/* For WebKit-based browsers (Chrome, Safari, Opera) */
-/* Customize the scrollbar */
-.menu-section-container::-webkit-scrollbar {
+/* Customise the scrollbar */
+.menu-section-container::-webkit-scrollbar, .menu-scrollspy::-webkit-scrollbar {
     width: 8px; /* Width of the scrollbar */
 }
 
 /* Handle */
-.menu-section-container::-webkit-scrollbar-thumb {
-    background-color: #FF4D4D80; /* Color of the scrollbar handle */
+.menu-section-container::-webkit-scrollbar-thumb, .menu-scrollspy::-webkit-scrollbar-thumb {
+    background-color: #FF4D4D80; /* Colour of the scrollbar handle */
     border-radius: 4px; /* Rounded corners of the handle */
 }
 
 /* Track */
-.menu-section-container::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Color of the scrollbar track */
+.menu-section-container::-webkit-scrollbar-track, .menu-scrollspy::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Colour of the scrollbar track */
 }
 
 /* Handle on hover */
-.menu-section-container::-webkit-scrollbar-thumb:hover {
-    background-color: #CD212A; /* Color of the scrollbar handle on hover */
+.menu-section-container::-webkit-scrollbar-thumb:hover, .menu-scrollspy::-webkit-scrollbar-thumb:hover {
+    background-color: #CD212A; /* Colour of the scrollbar handle on hover */
 }
 
 /* Track on hover */
-.menu-section-container::-webkit-scrollbar-track:hover {
-    background: #ddd; /* Color of the scrollbar track on hover */
+.menu-section-container::-webkit-scrollbar-track:hover, .menu-scrollspy::-webkit-scrollbar-track:hover {
+    background: #ddd; /* Colour of the scrollbar track on hover */
 }
 
 /* Corner */
-.menu-section-container::-webkit-scrollbar-corner {
+.menu-section-container::-webkit-scrollbar-corner, .menu-scrollspy::-webkit-scrollbar-corner {
     background: transparent; /* Hide the scrollbar corner */
 }
 
@@ -294,7 +361,6 @@ button.close {
     color: #000;
     text-shadow: 0 1px 0 #fff;
     opacity: 0.2;
-    filter: alpha(opacity = 20);
 }
 
 .modal-title {
@@ -323,6 +389,11 @@ button.close {
 }
 
 .menu-scrollspy {
+    position: relative;
+    height: 700px; /* Adjust as needed */
+    overflow-y: auto;
+    overflow-x: hidden;
+    justify-content: center;
 }
 
 .sticky-top {
@@ -335,6 +406,36 @@ button.close {
     }
 
 .order-summary {
-    padding: 3rem 0 0;
-    margin: -3rem 0 0;
+    padding-top: 44.8px;
+    margin-top: -44.8px;
+}
+
+
+.select2-selection {
+    height: 40px !important;
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent !important;
+    color: white !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    position: relative;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: inherit;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: #fff transparent transparent transparent;
+}
+
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+    border-color: transparent transparent #fff transparent;
+}
+
+.input-quantity {
+    width: 60px;
 }
