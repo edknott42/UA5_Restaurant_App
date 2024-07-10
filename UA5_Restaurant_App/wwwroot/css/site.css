@@ -223,12 +223,14 @@ a {
 .btn-link {
     box-shadow: none !important;
     outline: none !important;
+    text-decoration: none;
     color: #CD212A;
 }
 
     .btn-link:hover, .btn-link:focus, .btn-link:active {
         box-shadow: none;
         outline: none;
+        text-decoration: underline;
         color: #A11A21;
     }
 

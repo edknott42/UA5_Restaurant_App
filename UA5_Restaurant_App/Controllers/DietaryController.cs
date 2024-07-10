@@ -9,5 +9,12 @@ namespace UA5_Restaurant_App.Controllers
             ViewData["PageClass"] = "dietary";
             return View();
         }
+
+        [HttpPost]
+        public IActionResult SaveDietary()
+        {
+            var response = new { success = true };
+            return Ok(response);
+        }
     }
 }

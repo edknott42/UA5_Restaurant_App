@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace UA5_Restaurant_App.Models
+﻿namespace UA5_Restaurant_App.Models
 {
-    public class MenuFormModel : Controller
+    public class MenuFormModel
     {
-        string administrative_area_level_2 { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Price { get; set; }
+        public string DietaryTitle { get; set; }
+        public string MenuType { get; set; }
     }
 }
+

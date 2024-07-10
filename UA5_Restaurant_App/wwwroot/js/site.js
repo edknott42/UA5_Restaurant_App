@@ -54,6 +54,76 @@ $('#deliveryForm').on('submit', function (event) {
     });
 });
 
+$('#saveDietaryButton').on('click', function () {
+    $('#dietaryForm').trigger('submit');
+})
+
+$(function () {
+    // Function to load saved dietary preferences from local storage
+    function loadPreferences() {
+        var savedPreferences = localStorage.getItem('dietaryPreferences');
+        if (savedPreferences) {
+            return JSON.parse(savedPreferences);
+        }
+        return {};
+    }
+
+    // Function to save dietary preferences to local storage
+    function savePreferences(preferences) {
+        localStorage.setItem('dietaryPreferences', JSON.stringify(preferences));
+    }
+
+    // Load saved dietary preferences from local storage
+    var preferences = loadPreferences();
+
+    // Populate checkboxes based on saved preferences
+    $.each(preferences, function (key, value) {
+        $('#' + key).prop('checked', value);
+    });
+
+    // Handle form submission
+    $('#dietaryForm').on('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Serialize form data into preferences object
+        var formData = {};
+        $('#dietaryForm input[type=checkbox]').each(function () {
+            formData[this.id] = this.checked ? 1 : 0; // Convert boolean to 1 or 0
+        });
+
+        // Save preferences to local storage
+        savePreferences(formData);
+
+        // Custom form submission logic here
+        console.log('Form submitted!', formData); // Log preferences for debugging
+
+        $("#saveDietaryButton").text("Saving...");
+        // AJAX submission
+        $.ajax({
+            url: '/dietary/SaveDietary',
+            method: 'POST',
+            data: formData, // Send serialized form data
+            success: function (response) {
+                console.log('Form submission successful', response);
+                // Handle success response if needed
+                $("#saveDietaryButton").html('<i class="fa fa-check me-2"></i>Saved');
+                setTimeout(function () {
+                    $("#saveDietaryButton").html('Save Changes');
+                }, 2000);
+            },
+            error: function (error) {
+                console.error('Form submission failed', error);
+                // Handle error response if needed
+                $("#saveDietaryButton").html('<i class="fa fa-times me-2"></i>Changes Failed');
+            }
+        });
+    });
+});
+
+
+
+
+
 $("#time-select").select2({
     minimumResultsForSearch: Infinity
 });
