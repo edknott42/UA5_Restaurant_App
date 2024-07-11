@@ -273,6 +273,7 @@ a {
     -webkit-overflow-scrolling: touch;
 }
 
+
 .nav-menu .nav-item {
     flex: 1;
     text-align: center;
@@ -292,10 +293,15 @@ a {
     min-width: 18rem;
     max-width: 18rem;
     scroll-snap-align: start;
+    min-height: 100%;
 }
 
 .card-body {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .card-img-top {
@@ -357,12 +363,12 @@ button.close {
 
 .close {
     float: right;
-    font-size: 21px;
+    font-size: 24px;
     font-weight: bold;
     line-height: 1;
     color: #000;
     text-shadow: 0 1px 0 #fff;
-    opacity: 0.2;
+    opacity: 0.3;
 }
 
 .modal-title {
@@ -392,7 +398,7 @@ button.close {
 
 .menu-scrollspy {
     position: relative;
-    height: 700px; /* Adjust as needed */
+    height: calc(100vh - 166px);
     overflow-y: auto;
     overflow-x: hidden;
     justify-content: center;
@@ -439,5 +445,12 @@ button.close {
 }
 
 .input-quantity {
-    width: 60px;
+    width: 50px;
+}
+
+
+.no-matches {
+    margin: 2rem 0 0 0;
+    font-size: 18px;
+    color: #6c757d !important;
 }

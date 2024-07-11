@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace UA5_Restaurant_App.Models
+﻿namespace UA5_Restaurant_App.Models
 {
-    public class TakeawayFormModel : Controller
+    public class TakeawayFormModel
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public decimal? Price { get; set; }
+        public int? Dish_Type_Id { get; set; }
+        public string? Dish_Type { get; set; }
+        public string? Dietary_Info { get; set; }
+        public string? Dietary_Titles { get; set; }
+        public string? Image_Path { get; set; }
     }
 }

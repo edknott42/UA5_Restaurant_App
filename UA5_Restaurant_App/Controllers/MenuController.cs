@@ -16,7 +16,7 @@ namespace UA5_Restaurant_App.Controllers
         public IActionResult Index()
         {
             ViewData["PageClass"] = "menu";
-            var menuItems = _context.MenuFormModel.ToList();
+            var menuItems = _context.MenuView.ToList();
             return View(menuItems);
         }
     }

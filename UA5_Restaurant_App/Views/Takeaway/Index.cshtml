@@ -1,8 +1,4 @@
-﻿@using UA5_Restaurant_App.Models;
-@model TakeawayFormModel
-
-
-
+﻿
 
 <div class="col-12 p-0 mt-md-2 mb-3 m-0">
     <div data-bs-spy="scroll" data-bs-target="#menu-navbar" data-bs-offset="0" class="menu-scrollspy m-0 row">
@@ -14,25 +10,19 @@
                         <i class="fa-solid fa-utensils m-auto ms-0"></i>
                         <span class="me-auto">Enter Dietary Requirements</span>
                     </button>
-                    @* <div class="d-flex flex-wrap gap-1">
-                    <button type="button" id="bookTableBtn" class="btn btn-primary"> Book a Table</button>
-                    <button type="button" id="orderTakeawayBtn" class="btn btn-primary"> Order a Takeaway</button>
-                    </div> *@
+                </div>
+                <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
+                    <button type="button" class="btn btn-link mx-auto mt-2" id="clearDietaryButton">Clear Dietary Requirements</button>
                 </div>
                 <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
                     <div class="card w-100">
                         <div class="card-body">
                             <h5 class="card-title">Your Basket</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Add or remove items</h6>
+                            <div id="basket-items" class="col-12 p-0 m-0 row">
 
-                            <div class="row align-items-center my-3 mx-0">
-                                <div class="col-auto p-0 me-1">
-                                    <button type="button" class="close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="col-3 p-0 m-0"><p class="card-text text-start">Pizza</p></div>
-                                <div class="col-auto p-0 m-0"><input type="number" class="input-quantity form-control-sm" data-itemid="" data-basevalue="" /></div>
+
+                                <!-- Basket items will be dynamically added here -->
                             </div>
 
                         </div>
@@ -43,20 +33,20 @@
                         <div class="card-body">
                             <h5 class="card-title">Your Delivery Details</h5>
                             <h6 class="card-subtitle mb-2 text-muted">
-                                <button type="button" class="btn btn-link text-center deliveryButton" data-toggle="modal" data-target="#deliveryModal">
+                                <button type="button" class="btn btn-link text-center checkoutButton" data-toggle="modal" data-target="#checkoutModal">
                                     Enter delivery details
                                 </button>
                             </h6>
 
-                            <div class="row align-items-center my-3 mx-0">
+                            <div class="col-12 row align-items-center my-3 mx-0">
                                 <div class="col-4 p-0 m-0"><p class="card-text text-start">Name:</p></div>
                                 <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourName"></p></div>
                             </div>
-                            <div class="row align-items-center my-3 mx-0">
+                            <div class="col-12 row align-items-center my-3 mx-0">
                                 <div class="col-4 p-0 m-0"><p class="card-text text-start">Email:</p></div>
                                 <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourEmail"></p></div>
                             </div>
-                            <div class="row align-items-start my-3 mx-0">
+                            <div class="col-12 row align-items-start my-3 mx-0">
                                 <div class="col-4 p-0 m-0"><p class="card-text text-start">Address:</p></div>
                                 <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourAddress"></p></div>
                             </div>
@@ -66,27 +56,23 @@
                 <div class="col-md-12 col-11 p-0 m-0 mx-auto">
                     <div class="card">
                         <div class="card-body">
-                            <button type="button" class="btn btn-light d-flex border w-100 deliveryButton" data-toggle="modal" data-target="#deliveryModal">
-                                <i class="fa-solid fa-location-dot m-auto ms-0" aria-hidden="true"></i>
-                                <span class="me-auto">Enter delivery details</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-11 p-0 m-0 mx-auto">
-                    <div class="card">
-                        <div class="card-body">
-                            <button type="button" class="btn btn-secondary d-flex border w-100">
+                            <button type="button" class="btn btn-secondary d-flex border w-100 checkoutButton" data-toggle="modal" data-target="#checkoutModal">
                                 <i class="fa-solid fa-cart-shopping m-auto ms-0" aria-hidden="true"></i>
-                                <span class="me-auto">Checkout</span>
+                                <span class="me-auto">Enter checkout details</span>
                             </button>
                         </div>
                     </div>
                 </div>
+               
             </div>
         </div>
     </div>
 </div>
+
+
+<!-- Delivery Modal -->
+<partial name="~/Views/Takeaway/_checkout.cshtml" />
+
 
 
 <!-- dietary Modal -->
@@ -103,72 +89,14 @@
                 <partial name="~/Views/Dietary/_dietary.cshtml" />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary dietaryButton" data-dismiss="modal">Close</button>
                 <button type="button" id="saveDietaryButton" class="btn btn-secondary">Save Changes</button>
+
+                <button type="button" class="btn btn-primary dietaryButton" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Delivery Modal -->
-<div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header pb-0 border-0">
-                <h5 class="modal-title mb-4 display-6 w-100" id="deliveryModallLabel">Enter delivery details</h5>
-                <button type="button" class="close p-0 pb-3 m-auto deliveryButton" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body pt-0">
-                <form role="form" id="deliveryForm">
-                    <div class="form-group">
-                        <div class="col-12 p-0 m-0 my-3 row">
-                            <div class="col-6 ps-0 pe-1 m-0">
-                                <input id="first_name" placeholder="First Name" type="text" class="form-control" autocomplete="on" />
-                            </div>
-                            <div class="col-6 pe-0 ps-1 m-0">
-                                <input id="last_name" placeholder="Last Name" type="text" class="form-control" autocomplete="on" />
-                            </div>
-                        </div>
-                        <div class="my-3">
-                            <input id="email" placeholder="Email address" type="email" class="form-control" autocomplete="on" />
-                        </div>
-                        <div class="my-3">
-                            <input id="autocomplete" autocomplete="off" placeholder="Enter your address" type="text" class="form-control" />
-                        </div>
-
-                        <div class="my-3">
-                            <input id="postal_town" class="form-control" placeholder="Town/City" />
-                        </div>
-
-
-                        <div class="my-3">
-                            <input id="administrative_area_level_2" class="form-control" placeholder="County" />
-                        </div>
-
-                        <div class="my-3">
-                            <input id="postal_code" class="form-control" placeholder="Postal Code" />
-                        </div>
-
-                    </div>
-                    <div class="mt-3">
-                        <p class="m-0">
-                            <strong>Delivery cost: </strong><span id="deliveryCostID">Please enter an address </span>
-                        </p>
-                        <p class="m-0">
-                            <span id="deliveryAvailableID"> </span>
-                        </p>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary deliveryButton" data-dismiss="modal">Close</button>
-                <button type="button" id="saveDeliveryButton" class="btn btn-secondary">Save Changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
