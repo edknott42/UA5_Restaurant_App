@@ -4,6 +4,7 @@
 @{
 }
 
+
 <form role="form" id="checkoutForm" class="d-flex flex-column p-0 m-0 gap-2">
     <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -17,31 +18,38 @@
                 <div class="modal-body pt-0">
                     <div class="form-group">
                         <div class="col-12 p-0 m-0 my-3 row">
-                            <div class="col-6 ps-0 pe-1 m-0">
+                          @*   <div class="col-6 ps-0 pe-1 m-0">
                                 <input id="first_name" placeholder="First Name" type="text" class="form-control" autocomplete="on" />
+                                @Html.TextBoxFor(m => Model.first_name, new { @class = "form-control", @placeholder = "First Name" })
                             </div>
                             <div class="col-6 pe-0 ps-1 m-0">
                                 <input id="last_name" placeholder="Last Name" type="text" class="form-control" autocomplete="on" />
+                                @Html.TextBoxFor(m => Model.last_name, new { @class = "form-control", @placeholder = "Last Name" })
                             </div>
                         </div>
                         <div class="my-3">
                             <input id="email" placeholder="Email address" type="email" class="form-control" autocomplete="on" />
+                            @Html.TextBoxFor(m => Model.email, new { @class = "form-control", @placeholder = "Email address" })
                         </div>
                         <div class="my-3">
                             <input id="autocomplete" autocomplete="off" placeholder="Enter your address" type="text" class="form-control" />
+                            @Html.TextBoxFor(m => Model.autocomplete, new { @class = "form-control", @placeholder = "Enter your address" })
                         </div>
 
                         <div class="my-3">
                             <input id="postal_town" class="form-control" placeholder="Town/City" />
+                            @Html.TextBoxFor(m => Model.postal_town, new { @class = "form-control", @placeholder = "Town/City" })
                         </div>
 
 
                         <div class="my-3">
                             <input id="administrative_area_level_2" class="form-control" placeholder="County" />
+                            @Html.TextBoxFor(m => Model.administrative_area_level_2, new { @class = "form-control", @placeholder = "County" })
                         </div>
 
                         <div class="my-3">
                             <input id="postal_code" class="form-control" placeholder="Postal Code" />
+                            @Html.TextBoxFor(m => Model.postal_code, new { @class = "form-control", @placeholder = "Postal Code" }) *@
                         </div>
 
                     </div>

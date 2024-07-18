@@ -4,70 +4,85 @@
 @{
 }
 
+@model UA5_Restaurant_App.Models.BookingFormModel
+
 <div class="col-12 p-0 m-0 row">
 
     <div class="col-md-6 p-4 m-0 d-flex flex-column text-center text-white bg-dark">
         <h1 class="display-6 text-start"><strong>Book a Table</strong></h1>
         <h2 class="display-7 mb-3 text-start">Fill in your details</h2>
 
-        <form>
-            <div class="col-12 p-0 my-4 m-0 row">
-                <label for="name" class="form-label text-start p-0" hidden="">Name</label>
-                <input type="text" name="name" id="name" placeholder="Your Name" value="" class="form-control" autocomplete="on">
-
-            </div>
+        <form id="bookingForm">
+            @Html.HiddenFor(m => Model.Id, new { @class = "form-control" })
             <div class="col-12 p-0 my-4 m-0 row">
                 <div class="col-6 ps-0 m-0 text-start ">
-                    <label for="email_address" class="form-label p-0" hidden="">Email</label>
-                    <input type="text" name="email_address" id="email_address" value="" class="form-control" placeholder="Your Email Address" autocomplete="on">
-                </div>
-                <div class="col-6 pe-0 m-0 text-start">
-                    <label for="phone_number" class="form-label p-0" hidden="">Phone</label>
-                    <input type="text" name="phone_number" id="phone_number" value="" class="form-control" placeholder="Your Phone Number" autocomplete="on">
-                </div>
-            </div>
-
-            <div class="col-12 p-0 my-4 m-0 row">
-                <div class="col-6 ps-0 m-0 text-start ">
-                    <label for="booking_date" class="form-label p-0">Check in</label>
-                    <input type="date" name="booking_date" id="booking_date" value="" class="form-control" autocomplete="on">
+                    <label for="First_name" class="form-label text-start p-0" hidden="">First Name</label>
+                    @Html.TextBoxFor(m => Model.First_name, new { @class = "form-control required", @placeholder="Your first name" })
                 </div>
                 <div class="col-6 pe-0 m-0 d-flex flex-column text-start">
-                    <label for="booking_time" class="form-label p-0">Check in</label>
-                    <input type="hidden" name="booking_time" id="booking_time" value="" class="form-control" autocomplete="on">
-                    <div class="mt-auto">
-                        <select class="form-control ml-0" id="time-select">
-                            <option value="1600">4:00 PM</option>
-                            <option value="1630">4:30 PM</option>
-                            <option value="1700">5:00 PM</option>
-                            <option value="1730">5:30 PM</option>
-                            <option value="1800">6:00 PM</option>
-                            <option value="1830">6:30 PM</option>
-                            <option value="1900">7:00 PM</option>
-                            <option value="1930">7:30 PM</option>
-                            <option value="2000">8:00 PM</option>
-                            <option value="2030">8:30 PM</option>
-                            <option value="2100">9:00 PM</option>
-                            <option value="2130">9:30 PM</option>
-                            <option value="2200">10:00 PM</option>
-                            <option value="2230">10:30 PM</option>
-                            <option value="2300">11:00 PM</option>
+                    <label for="Last_name" class="form-label text-start p-0" hidden="">Last Name</label>
+                    @Html.TextBoxFor(m => Model.Last_name, new { @class = "form-control required", @placeholder = "Your last name" })
+                </div>
+            </div>
+            <div class="col-12 p-0 my-4 m-0 row">
+                <div class="col-6 ps-0 m-0 text-start ">
+                    <label for="Email_address" class="form-label p-0" hidden="">Email</label>
+                    @Html.TextBoxFor(m => Model.Email_address, new { @class = "form-control required", @placeholder = "Your email address" })
+                </div>
+                <div class="col-6 pe-0 m-0 text-start">
+                    <label for="Phone_number" class="form-label p-0" hidden="">Phone</label>
+                    @Html.TextBoxFor(m => Model.Phone_number, new { @class = "form-control", @placeholder = "Your phone number" })
+                </div>
+            </div>
+
+            <div class="col-12 p-0 my-4 m-0 row">
+                <div class="col-6 ps-0 m-0 text-start ">
+                    <label for="Booking_date" class="form-label p-0">Check in date*</label>
+                    @Html.TextBoxFor(m => Model.Booking_date, new { @class = "form-control required", @type="date" })
+                </div>
+                <div class="col-6 pe-0 m-0 d-flex flex-column text-start">
+                    <label for="booking_time" class="form-label p-0">Check in time*</label>
+                    <div class="">
+                        <select class="form-control ml-0" id="Select_booking_time">
+                            <option value="">hh:mm</option>
+                            <option value="16:00">4:00 PM</option>
+                            <option value="16:30">4:30 PM</option>
+                            <option value="17:00">5:00 PM</option>
+                            <option value="17:30">5:30 PM</option>
+                            <option value="18:00">6:00 PM</option>
+                            <option value="18:30">6:30 PM</option>
+                            <option value="19:00">7:00 PM</option>
+                            <option value="19:30">7:30 PM</option>
+                            <option value="20:00">8:00 PM</option>
+                            <option value="20:30">8:30 PM</option>
+                            <option value="21:00">9:00 PM</option>
+                            <option value="21:30">9:30 PM</option>
+                            <option value="22:00">10:00 PM</option>
+                            <option value="22:30">10:30 PM</option>
+                            <option value="23:00">11:00 PM</option>
 
                         </select>
                     </div>
+                    @Html.HiddenFor(m => Model.Booking_time, new { @class = "form-control required", @rows = "2" })
                 </div>
             </div>
             <div class="col-12 p-0 my-4 m-0 row">
-                <label for="guests_no" class="form-label p-0 text-start">Number of guests</label>
-                <input type="number" name="guests_no" id="guests_no" value="" class="form-control" autocomplete="on">
+                <label for="table_size" class="form-label p-0 text-start">Number of guests</label>
+                @Html.TextBoxFor(m => Model.Table_size, new { @class = "form-control required", @type="number" })
             </div>
+            <div class="col-12 p-0 my-4 m-0 row">
+                <label for="Special_Requests" class="form-label p-0 text-start">Any special requests?</label>
+                @Html.TextAreaFor(m => Model.Special_requests, new { @class = "form-control", @rows="2" })
+            </div>
+            @Html.HiddenFor(m => Model.Dietary_title, new { @class = "form-control" })
         </form>
+
         <div class="col-12 p-0 m-0 mt-auto row">
             <button type="button" class="btn btn-secondary d-flex border w-100 dietaryButton mb-2" data-toggle="modal" data-target="#dietaryModal">
                 <i class="fa-solid fa-utensils m-auto ms-0"></i>
                 <span class="me-auto">Enter Dietary Requirements</span>
             </button>
-            <button type="submit" class="btn btn-primary d-flex w-100"><i class="fa-regular fa-calendar m-auto ms-0"></i><span class="me-auto">Book Now</span></button>
+            <button type="button" id="saveBookingForm" class="btn btn-primary d-flex w-100"><i class="fa-regular fa-calendar m-auto ms-0"></i><span class="me-auto">Book Now</span></button>
         </div>
     </div>
     <div class="col-md-6 p-0 m-0 d-none d-md-block">
