@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UA5_Restaurant_App.Data;
+using UA5_Restaurant_App.DatabaseFunctions;
 
 namespace UA5_Restaurant_App.Controllers
 {

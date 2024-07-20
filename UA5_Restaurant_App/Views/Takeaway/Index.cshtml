@@ -12,66 +12,50 @@
                     </button>
                 </div>
                 <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
-                    <button type="button" class="btn btn-link mx-auto mt-2" id="clearDietaryButton">Clear Dietary Requirements</button>
+                    <button type="button" class="btn btn-link mx-auto" id="clearDietaryButton">Clear Dietary Requirements</button>
                 </div>
                 <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
                     <div class="card w-100">
                         <div class="card-body">
                             <h5 class="card-title">Your Basket</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Add or remove items</h6>
-                            <div id="basket-items" class="col-12 p-0 m-0 row">
+                            <form id="basketForm">
+                                <input type="hidden" name="Basket_Id" id="Basket_Id" value="1">
+                                <div id="basket-items" class="col-12 p-0 m-0 row">
 
 
                                 <!-- Basket items will be dynamically added here -->
-                            </div>
 
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
-                    <div class="card w-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Your Delivery Details</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                <button type="button" class="btn btn-link text-center checkoutButton" data-toggle="modal" data-target="#checkoutModal">
-                                    Enter delivery details
-                                </button>
-                            </h6>
 
-                            <div class="col-12 row align-items-center my-3 mx-0">
-                                <div class="col-4 p-0 m-0"><p class="card-text text-start">Name:</p></div>
-                                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourName"></p></div>
+
                             </div>
-                            <div class="col-12 row align-items-center my-3 mx-0">
-                                <div class="col-4 p-0 m-0"><p class="card-text text-start">Email:</p></div>
-                                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourEmail"></p></div>
-                            </div>
-                            <div class="col-12 row align-items-start my-3 mx-0">
-                                <div class="col-4 p-0 m-0"><p class="card-text text-start">Address:</p></div>
-                                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourAddress"></p></div>
-                            </div>
+                            
+                                
+
+                                @* <input type="hidden" name="Dish_Id" id="Dish_Ids" value="">
+                                <input type="hidden" name="Quantity" id="Quantities" value="">
+                                <input type="hidden" name="Total_Price" id="Total_Price" value=""> *@
+
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12 col-11 p-0 m-0 mx-auto">
                     <div class="card">
                         <div class="card-body">
-                            <button type="button" class="btn btn-secondary d-flex border w-100 checkoutButton" data-toggle="modal" data-target="#checkoutModal">
-                                <i class="fa-solid fa-cart-shopping m-auto ms-0" aria-hidden="true"></i>
-                                <span class="me-auto">Enter checkout details</span>
+                            <button id="basketButton" class="btn btn-secondary d-flex border w-100">
+                                <i class="fa-solid fa-shopping-cart m-auto ms-0" aria-hidden="true"></i>
+                                <span class="me-auto">Checkout</span>
                             </button>
                         </div>
                     </div>
                 </div>
-               
             </div>
         </div>
     </div>
 </div>
 
 
-<!-- Delivery Modal -->
-<partial name="~/Views/Takeaway/_checkout.cshtml" />
 
 
 

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using UA5_Restaurant_App.DatabaseFunctions;
 
 var builder = WebApplication.CreateBuilder(args);
 

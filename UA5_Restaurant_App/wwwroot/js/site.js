@@ -11,31 +11,26 @@ $('#myTab a').on('click', function (e) {
 })
 
 
-$('.checkoutButton').on('click', function () {
-    $('#checkoutModal').modal('toggle')
+$('.deliveryButton').on('click', function () {
+    $('#deliveryModal').modal('toggle')
 })
 
 $('.dietaryButton').on('click', function () {
     $('#dietaryModal').modal('toggle')
 })
 
-
-$('.paymentButton').on('click', function () {
-    $('#deliveryDetails').toggle();
-    $('#paymentDetails').toggle();
-})
-
-$('.deliveryButton').on('click', function () {
-    $('#deliveryDetails').toggle();
-    $('#paymentDetails').toggle();
-})
-
 $('#saveDietaryButton').on('click', function () {
     $('#dietaryForm').trigger('submit');
 })
 
+$('.form-check-input').on('click', function () {
+    $('#dietaryForm').trigger('submit');
+})
+
+
+// Dietary Preference Cookies
 $(function () {
-    // Function to load saved dietary preferences from cookies
+    // Load saved dietary preferences from cookies
     function loadPreferences() {
         var cookie = document.cookie.match('(^|[^;]+)\\s*dietaryPreferences\\s*=\\s*([^;]+)');
         if (cookie) {
@@ -44,14 +39,14 @@ $(function () {
         return {};
     }
 
-    // Function to save dietary preferences to cookies
+    // Save dietary preferences to cookies
     function savePreferences(preferences) {
         var cookieValue = encodeURIComponent(JSON.stringify(preferences));
         document.cookie = `dietaryPreferences=${cookieValue}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-        $('#Dietary_title').val(cookieValue); // Update Dietary_title input field
+        $('#Dietary_title').val(cookieValue);
     }
 
-    // Function to filter and show/hide cards based on preferences
+    // Filter cards based on preferences
     function filterCards(preferences) {
         var anyPreferenceSelected = false;
 
@@ -59,7 +54,7 @@ $(function () {
         $.each(preferences, function (key, value) {
             if (value) {
                 anyPreferenceSelected = true;
-                return false; // exit loop early
+                return false;
             }
         });
 
@@ -85,7 +80,7 @@ $(function () {
             var visibleCards = $(this).find('.card:visible');
             if (visibleCards.length === 0) {
                 // No matching dishes, show no matches message
-                $(this).append('<p class="no-matches">No dish matches your requirements</p>');
+                $(this).append('<p class="no-matches">Sorry, no dish matches your requirements</p>');
             } else {
                 // Remove no matches message if shown
                 $(this).find('.no-matches').remove();
@@ -102,11 +97,11 @@ $(function () {
     // Filter cards based on loaded preferences
     filterCards(preferences);
 
-    // Form submission using delegated event handling
-    $(document).on('submit', '#dietaryForm', function (event) {
+    // Form submission
+    $('#dietaryForm').on('submit', function (event) {
         event.preventDefault();
 
-        // Serialize form data into preferences object
+        // Serialise form data into preferences object
         var formData = {};
         $('#dietaryForm input[type=checkbox]').each(function () {
             formData[this.id] = this.checked;
@@ -115,21 +110,11 @@ $(function () {
         // Save to cookies
         savePreferences(formData);
 
-        $("#saveDietaryButton").text("Saving...");
-
-        // Simulate AJAX submission (replace with actual AJAX call as needed)
-        setTimeout(function () {
-            $("#saveDietaryButton").html('<i class="fa fa-check me-2"></i>Saved');
-            setTimeout(function () {
-                $("#saveDietaryButton").html('Save Changes');
-            }, 500);
-        }, 1000); // Simulate 1 second delay for demonstration
-
         // Filter cards based on current form data
         filterCards(formData);
     });
 
-    // Clear form checkboxes and preferences
+    // Clear preferences
     $('#clearDietaryButton').on('click', function () {
         $('#dietaryForm input[type=checkbox]').prop('checked', false);
         var formData = {};
@@ -140,55 +125,67 @@ $(function () {
         filterCards(formData);
     });
 
-    // Update already saved dietary_info input field on page load
+    // Update already saved dietary info on page load
     $('#Dietary_title').val(encodeURIComponent(JSON.stringify(preferences)));
 });
 
 
 
+
+// Add to basket
 $(function () {
     $('.order-now-btn').on('click', function (event) {
         event.preventDefault();
 
-        const title = $(this).data('title');
+        const dishName = $(this).data('dish-name');
         const price = parseFloat($(this).data('price'));
         const id = $(this).attr('id');
 
+
         // Add item to basket
-        addToBasket(id, title, price);
+        addToBasket(id, dishName, price);
     });
 
-    function addToBasket(id, title, price) {
+    function addToBasket(id, dishName, price) {
         const basketItemsDiv = $('#basket-items');
 
+        // Check if item already exists in the basket
+        let existingItem = basketItemsDiv.find(`#basket-item-${id}`);
+        if (existingItem.length > 0) {
+            let quantitySelect = existingItem.find('.input-quantity');
+            let newQuantity = parseInt(quantitySelect.val()) + 1;
+            quantitySelect.val(newQuantity).trigger('change');
+            return;
+        }
+
         // Create new item div
-        const newItemDiv = $('<div>').addClass('col-12 row align-items-start p-0 my-3 mx-0');
+        const newItemDiv = $('<div>').addClass('col-12 row align-items-start p-0 my-3 mx-0').attr('id', `basket-item-${id}`);
 
         // HTML for the new item
         newItemDiv.html(`
-        <div class="col-auto p-0">
-            <button type="button" class="close">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-        <div class="col-7 p-0 ms-2 row">
-            <p class="card-title text-start p-0 m-0">${title}</p>
-            <p class="card-text text-start p-0 text-muted">£<span class="item-price">${price.toFixed(2)}</span></p>
-        </div>
-        <div class="col-auto ms-auto p-0">
-            <select class="basket input-quantity form-control-sm">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-        <input type="hidden" name="id" id="id" value="${id}">
-        <input type="hidden" name="name" id="name" value="${title}">
-        <input type="hidden" class="price" name="price" value="${price.toFixed(2)}">
-
-    `);
+            <div class="col-auto p-0">
+                <button type="button" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="col-7 p-0 ms-2 row">
+                <p class="card-title text-start p-0 m-0">${dishName}</p>
+                <p class="card-text text-start p-0 text-muted">£<span class="item-price">${price.toFixed(2)}</span></p>
+            </div>
+            <div class="col-auto ms-auto p-0">
+                <select class="basket input-quantity form-control-sm">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <input type="hidden" name="Id" id="Id" value="">
+            <input type="hidden" name="Dish_id" id="Dish_Id" value="${id}">
+            <input type="hidden" class="price" name="Price" id="Price" value="${price.toFixed(2)}">
+            <input type="hidden" class="quantity" name="Quantity" id="Quantity" value="1">
+        `);
 
         basketItemsDiv.append(newItemDiv);
 
@@ -201,14 +198,65 @@ $(function () {
             // Update displayed price
             newItemDiv.find('.item-price').text(totalPrice);
 
-            // Update hidden input value with total price
-            newItemDiv.find('.total-price').val(totalPrice);
+            // Update hidden input value with total price and quantitiy
+            newItemDiv.find('.price').val(totalPrice);
+            newItemDiv.find('.quantity').val(quantity);
+        });
+
+        // Attach click event to the close button to remove the item
+        newItemDiv.find('.close').on('click', function () {
+            newItemDiv.remove();
         });
     }
 
+    // Handle form submission
+    $('#basketButton').on('click', function () {
+        $('#basketForm').trigger('submit');
+    });
 
+    $('#basketForm').on('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        $("#basketButton").text("Checking out...");
+
+        let formData = new FormData(this);
+        let url = '/takeaway/SaveBasket';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                var UserID = data.Id;
+                $("#basketButton").html('<i class="fa fa-check  m-auto ms-0"></i><span class="me-auto">Proceeding to Checkout...</span>');
+                $("#basketForm #Id").val(UserID);
+                setTimeout(function () {
+                    $("#basketButton").html('<i class="fa-solid fa-cart-shopping m-auto ms-0"></i><span class="me-auto">Checkout Now</span>');
+                }, 2000);
+            },
+            timeout: 3000,
+            tryCount: 0,
+            retryLimit: 3,
+            error: function (xhr, textStatus, errorThrown) {
+                if (textStatus === 'timeout') {
+                    this.tryCount++;
+                    if (this.tryCount <= this.retryLimit) {
+                        $.ajax(this);
+                        return;
+                    }
+                    return;
+                }
+                alert("An error has occurred saving the data.");
+                $("#basketButton").html('<i class="fa fa-times  m-auto ms-0"></i><span class="me-auto">Check out Failed</span>');
+                return 0;
+            },
+        });
+    });
 });
 
+
+// Takewaway Checkout Form
 $('#saveCheckoutButton').on('click', function () {
     $('#checkoutForm').trigger('submit');
 })
@@ -223,7 +271,7 @@ $('#checkoutForm').on('submit', function (event) {
     $("#saveCheckoutButton").text("Checking out...");
     // Optionally, you can use AJAX to submit the form data
     // Example using jQuery's $.ajax() method
-    $.ajax({
+    /*$.ajax({
         url: '/takeaway/SaveTakeaway',
         method: 'POST',
         data: $(this).serialize(), // Serialize form data
@@ -240,82 +288,16 @@ $('#checkoutForm').on('submit', function (event) {
             // Handle error response
             $("#saveCheckoutButton").html('<i class="fa fa-times  m-auto ms-0""></i>Checkout Failed');
         }
-    });
+    });*/
+    
 });
 
-/*$('#saveBookingForm').on('click', function () {
-    $('#bookingForm').trigger('submit');
-})
 
-$('#bookingForm').on('submit', function (event) {
-    event.preventDefault(); // Prevent default form submission
 
-    let isValid = true;
-    $('.required').each(function () {
-        const $this = $(this);
-        const $validationMessage = $this.siblings('.field-validation-valid');
 
-        if ($this.val().trim() === '') {
-            isValid = false;
-            $this.addClass('is-invalid'); // Add invalid class to highlight the empty field
-            if ($validationMessage.length) {
-                $validationMessage.text('This field is required.');
-            }
-        } else {
-            $this.removeClass('is-invalid'); // Remove invalid class if the field is not empty
-            if ($validationMessage.length) {
-                $validationMessage.text('');
-            }
-        }
-    });
 
-    if (!isValid) {
-        console.log('Form validation failed: required fields are empty.');
-        return; // Prevent form submission if validation fails
-    }
 
-    console.log('Form submitted!');
-
-    let formData = new FormData(this);
-    let url = "/booking/SaveBooking";
-
-    $("#saveBookingForm").text("Booking...");
-
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            var UserID = data.Id;
-            // Ajax call completed successfully
-            $("#saveBookingForm").html('<i class="fa fa-check  m-auto ms-0""></i><span class="me-auto">Booking Saved</span>');
-            $("#bookingForm #Id").val(UserID);
-            setTimeout(function () {
-                $("#saveBookingForm").html('<i class="fa-regular fa-calendar m-auto ms-0"></i><span class="me-auto">Book Now</span>');
-            }, 2000);
-        },
-        timeout: 3000,
-        tryCount: 0,
-        retryLimit: 3,
-        error: function (xhr, textStatus, errorThrown) {
-            if (textStatus === 'timeout') {
-                this.tryCount++;
-                if (this.tryCount <= this.retryLimit) {
-                    $.ajax(this);
-                    return;
-                }
-                return;
-            }
-            alert("An error has occurred saving the data.");
-            //logError("Application Form", xhr, textStatus, errorThrown);
-            $("#saveBookingForm").html('<i class="fa fa-times  m-auto ms-0""></i><span class="me-auto">Booking Failed</span>');
-            return 0;
-        },
-    });
-});*/
-
+// Booking Form
 $(function () {
 
     // Initalise select2
@@ -330,7 +312,7 @@ $(function () {
         $('#Booking_time-error').hide();
     });
 
-    // Initialize form validation on the bookingForm element
+    // Initialise form validation
     $('#bookingForm').validate({
 
         // Validation rules
@@ -359,7 +341,7 @@ $(function () {
             }
         },
 
-        // Validation error messages
+        // Error messages
         messages: {
             First_name: {
                 required: "Please enter your first name"
@@ -385,7 +367,7 @@ $(function () {
         },
 
 
-        // Highlight and unhighlight fields
+        // Highlight/unhighlight fields
         highlight: function (element) {
             $(element).addClass('is-invalid');
         },
@@ -399,7 +381,7 @@ $(function () {
         },
 
 
-        // Handle form submission
+        // Form submission
         submitHandler: function (form) {
             let formData = new FormData(form);
             let url = "/booking/SaveBooking";

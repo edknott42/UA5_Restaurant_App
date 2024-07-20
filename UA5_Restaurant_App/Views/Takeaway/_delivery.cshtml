@@ -5,13 +5,12 @@
 }
 
 
-<form role="form" id="checkoutForm" class="d-flex flex-column p-0 m-0 gap-2">
-    <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" id="deliveryDetails">
                 <div class="modal-header pb-0 border-0">
-                    <h5 class="modal-title mb-4 display-6 w-100" id="checkoutModallLabel">Enter delivery details</h5>
-                    <button type="button" class="close p-0 pb-3 m-auto checkoutButton" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title mb-4 display-6 w-100" id="deliveryModallLabel">Enter delivery details</h5>
+                    <button type="button" class="close p-0 pb-3 m-auto deliveryButton" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -65,29 +64,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary paymentButton me-auto">Go to payment</button>
 
-                    <button type="button" class="btn btn-primary checkoutButton ms-auto" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-            <div class="modal-content" id="paymentDetails" style="display:none;">
-                <div class="modal-header pb-0 border-0">
-                    <h5 class="modal-title mb-4 display-6 w-100" id="checkoutModallLabel">Enter delivery details</h5>
-                    <button type="button" class="close p-0 pb-3 m-auto checkoutButton" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body pt-0">
-                    <div class="form-group">
-                    </div>
-                    <button type="button" class="btn btn-secondary d-flex border w-100" id="saveCheckoutButton">
-                        <i class="fa-solid fa-cart-shopping m-auto ms-0" aria-hidden="true"></i>
-                        <span class="me-auto">Checkout</span>
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary deliveryButton me-auto">Go back</button>
-                    <button type="button" class="btn btn-primary checkoutButton ms-auto" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary deliveryButton ms-auto" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-</form>

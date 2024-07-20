@@ -1,0 +1,64 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
+    <div class="card w-100">
+        <div class="card-body">
+            <h5 class="card-title">Your Basket</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Add or remove items</h6>
+            <div id="basket-items" class="col-12 p-0 m-0 row">
+                <form>
+
+                    <!-- Basket items will be dynamically added here -->
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
+    <div class="card w-100">
+        <div class="card-body">
+            <h5 class="card-title">Your Delivery Details</h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+                <button type="button" class="btn btn-link text-center deliveryButton" data-toggle="modal" data-target="#deliveryModal">
+                    Enter delivery details
+                </button>
+            </h6>
+
+            <div class="col-12 row align-items-center my-3 mx-0">
+                <div class="col-4 p-0 m-0"><p class="card-text text-start">Name:</p></div>
+                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourName"></p></div>
+            </div>
+            <div class="col-12 row align-items-center my-3 mx-0">
+                <div class="col-4 p-0 m-0"><p class="card-text text-start">Email:</p></div>
+                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourEmail"></p></div>
+            </div>
+            <div class="col-12 row align-items-start my-3 mx-0">
+                <div class="col-4 p-0 m-0"><p class="card-text text-start">Address:</p></div>
+                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourAddress"></p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12 col-11 p-0 m-0 mx-auto">
+    <div class="card">
+        <div class="card-body">
+            <button type="button" class="btn btn-light d-flex border w-100 deliveryButton" data-toggle="modal" data-target="#deliveryModal">
+                <i class="fa-solid fa-truck m-auto ms-0" aria-hidden="true"></i>
+                <span class="me-auto">Enter delivery details</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Delivery Modal -->
+<partial name="~/Views/Takeaway/_delivery.cshtml" />
+
+<!-- Payment Modal -->
+<partial name="~/Views/Takeaway/_payment.cshtml" />
