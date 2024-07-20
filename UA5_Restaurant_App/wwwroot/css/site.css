@@ -473,3 +473,9 @@ button.close {
     font-size: 14px;
     color: #dc3545;
 }
+
+#basket-items {
+    min-height: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}

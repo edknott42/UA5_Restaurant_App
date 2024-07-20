@@ -130,7 +130,7 @@ $(function () {
 });
 
 
-
+/*
 
 // Add to basket
 $(function () {
@@ -181,11 +181,11 @@ $(function () {
                     <option value="5">5</option>
                 </select>
             </div>
-            <input type="hidden" class="item-id" name="Id" id="Id" value="">
-            <input type="hidden" class="basket-id" name="basket_id" id="basket_id" value="">
-            <input type="hidden" class="dish-id" name="Dish_id" id="Dish_Id" value="${id}">
-            <input type="hidden" class="price" name="Price" id="Price" value="${price.toFixed(2)}">
-            <input type="hidden" class="quantity" name="Quantity" id="Quantity" value="1">
+            <input type="hidden" class="item-id" name="Id" id="Id" value="" data-id="${id}">
+            <input type="hidden" class="basket-id" name="basket_id" id="basket_id" value="" data-id="${id}">
+            <input type="hidden" class="dish-id" name="Dish_id" id="Dish_Id" value="${id}" data-id="${id}">
+            <input type="hidden" class="price" name="Price" id="Price" value="${price.toFixed(2)}" data-id="${id}">
+            <input type="hidden" class="quantity" name="Quantity" id="Quantity" value="1" data-id="${id}">
         `);
 
         basketItemsDiv.append(newItemDiv);
@@ -281,7 +281,237 @@ $(function () {
             });
         });
     });
+});*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$(function () {
+    // Variable to hold the basket_id
+    let basketId = '';
+
+    // Event handler for the "Order Now" button
+    $('.order-now-btn').on('click', function (event) {
+        event.preventDefault();
+
+        const dishName = $(this).data('dish-name');
+        const price = parseFloat($(this).data('price'));
+        const dishId = $(this).attr('id'); // dishId from data or attributes
+
+        // Add item to basket
+        addToBasket(dishId, dishName, price, 1);
+    });
+
+    function addToBasket(dishId, dishName, price) {
+        const basketItemsDiv = $('#basket-items');
+        const itemSelector = `.basket-item-line[item-id="${dishId}"]`;
+        let existingItem = basketItemsDiv.find(itemSelector);
+
+        if (existingItem.length > 0) {
+            // Update quantity and price for existing item
+            let quantitySelect = existingItem.find('.input-quantity');
+            let newQuantity = parseInt(quantitySelect.val()) + 1;
+            quantitySelect.val(newQuantity).trigger('change');
+            return;
+        }
+
+        // Create new item div with placeholders for item-id and other values
+        const newItemDiv = $('<div>')
+            .addClass('col-12 row align-items-start p-0 my-3 mx-0 basket-item-line')
+            .attr('item-id', dishId); // Set item-id to match the dishId
+
+        // HTML for the new item with hidden inputs
+        newItemDiv.html(`
+        <div class="col-auto p-0">
+            <button type="button" class="btn btn-danger btn-sm close" item-id="${dishId}">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="col-7 p-0 ms-2 row">
+            <p class="card-title text-start p-0 m-0">${dishName}</p>
+            <p class="card-text text-start p-0 text-muted">£<span class="item-price">${price.toFixed(2)}</span></p>
+        </div>
+        <div class="col-auto ms-auto p-0">
+            <select class="basket input-quantity form-control-sm">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <input type="hidden" class="item-id" name="Id" value="">
+        <input type="hidden" class="basket-id" name="Basket_id" value="">
+        <input type="hidden" class="dish-id" name="Dish_id" value="${dishId}">
+        <input type="hidden" class="price" name="Price" value="${price.toFixed(2)}">
+        <input type="hidden" class="quantity" name="Quantity" value="1">
+        <input type="hidden" class="status-id" name="status_id" value="1">
+    `);
+
+        basketItemsDiv.append(newItemDiv);
+
+        // Send AJAX request to add the item
+        sendItemData(dishId, price, 1, 1);
+
+        // Attach change event to the select element to update the price
+        newItemDiv.find('.input-quantity').on('change', function () {
+            const quantity = parseInt($(this).val());
+            const basePrice = parseFloat(price);
+            const totalPrice = (basePrice * quantity).toFixed(2);
+            const statusId = parseInt(newItemDiv.find('.status-id').val(), 10);
+
+            // Update displayed price
+            newItemDiv.find('.item-price').text(totalPrice);
+
+            // Update hidden input values with total price and quantity
+            newItemDiv.find('.price').val(totalPrice);
+            newItemDiv.find('.quantity').val(quantity);
+
+            // Send AJAX request to update the item data
+            sendItemData(dishId, price, quantity, statusId);
+        });
+    }
+
+
+    // Use event delegation for the close button
+    $('#basket-items').on('click', '.close', function () {
+        console.log(`Delete button clicked`);
+        // Get the ID of the clicked close button from item-id attribute
+        const dishId = $(this).attr('item-id');
+
+        if (dishId) {
+            // Find the basket item line with the matching ID
+            const itemDiv = $(`.basket-item-line[item-id=${dishId}]`);
+
+            // Send the extracted data to your function
+            sendItemData(dishId, 0, 0, 0);
+
+            // Remove the item from the DOM
+            itemDiv.remove();
+
+            // Log the removal
+            console.log(`Item with dish ID '${dishId}' removed`);
+
+        } else {
+            console.error('Dish ID is undefined');
+        }
+    });
+
+
+    function sendItemData(dishId, price, quantity, statusId) {
+        // Ensure basketId is set before sending data
+        if (!basketId) {
+            // This is a placeholder to show basketId needs to be set before adding items
+            // Ideally, basketId would be obtained or set earlier in the flow
+            basketId = $('#basket-items').find('.basket-id').first().val();
+        }
+
+        const itemId = $('#basket-items').find(`#basket-item-${dishId} .item-id`).val();
+        const itemData = {
+            id: itemId, // Initially empty and set by server
+            basket_id: basketId, // Use the same basket_id for all items
+            dish_id: dishId,
+            price: price.toFixed(2),
+            quantity: quantity,
+            status_id: statusId
+        };
+
+        $.ajax({
+            type: "POST",
+            url: '/takeaway/SaveBasket', // Ensure this URL is correct
+            data: itemData,
+            success: function (data) {
+                console.log('Item data saved:', data);
+                console.log('Sending data:', itemData);
+
+
+                // Update item-id if not set (assuming response contains the new id)
+                if (!itemId && data.id) {
+                    $('#basket-items').find(`#basket-item-${dishId} .item-id`).val(data.id);
+                }
+
+                // Set basket_id if not already set
+                if (!basketId && data.basket_Id) {
+                    $('#basket-items').find(`#basket-item-${dishId} .basket-id`).val(data.basket_Id);
+                    $('#checkoutButton').attr('href', `/Takeaway/Checkout?id=${data.basket_Id}`);
+
+                    const currentUrl = window.location.href;
+                    const separator = currentUrl.includes('?') ? '&' : '?';
+                    const newUrl = `${currentUrl}${separator}id=${data.basket_Id}`;
+                    window.history.replaceState(null, null, newUrl);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.error('Error:', textStatus, errorThrown);
+                alert("An error has occurred saving the item data.");
+            }
+        });
+    }
+
+    /*$('#basketButton').on('click', function () {
+        $('#basketForm').trigger('submit');
+    });
+
+    $('#basketForm').on('submit', function (event) {
+        event.preventDefault();
+
+        $("#basketButton").text("Checking out...");
+
+        // Previous form submission logic removed as per instructions
+    });*/
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Takewaway Checkout Form

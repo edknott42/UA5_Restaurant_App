@@ -23,6 +23,7 @@ namespace UA5_Restaurant_App.DatabaseFunctions
                     cmd.Parameters.AddWithValue("@Dish_Id", basketForm.Dish_Id);
                     cmd.Parameters.AddWithValue("@Price", basketForm.Price);
                     cmd.Parameters.AddWithValue("@Quantity", basketForm.Quantity);
+                    cmd.Parameters.AddWithValue("@Status_Id", basketForm.Quantity);
 
                     using (SqlDataAdapter daData = new SqlDataAdapter())
                     {

@@ -1,0 +1,40 @@
+﻿@model List<UA5_Restaurant_App.Models.BasketFormModel>
+
+@{
+    // Extract the Basket_Id from the URL query parameter
+    var basketIdFromUrl = Context.Request.Query["id"].ToString();
+
+    // Optional: Trim any extra whitespace around the ID
+    basketIdFromUrl = basketIdFromUrl?.Trim();
+}
+
+@foreach (var item in Model.Where(m => m.Status_Id == 1 &&
+   string.Equals(m.Basket_Id, basketIdFromUrl, StringComparison.OrdinalIgnoreCase)))
+{
+    <div class="col-12 row align-items-start p-0 my-3 mx-0 basket-item-line" item-id="@item.Dish_Id">
+        <div class="col-auto p-0">
+            <button type="button" class="close" item-id="@item.Dish_Id">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="col-7 p-0 ms-2 row">
+            <p class="card-title text-start p-0 m-0">@item.Dish_Name</p>
+            <p class="card-text text-start p-0 text-muted">£<span class="item-price">@item.Price</span></p>
+        </div>
+        <div class="col-auto ms-auto p-0">
+            <select class="basket input-quantity form-control-sm">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <input type="hidden" class="item-id" name="Id" value="@item.Id">
+        <input type="hidden" class="basket-id" name="Basket_id" value="@item.Basket_Id">
+        <input type="hidden" class="dish-id" name="Dish_id" value="@item.Dish_Id">
+        <input type="hidden" class="price" name="Price" value="@item.Price">
+        <input type="hidden" class="quantity" name="Quantity" value="@item.Quantity">
+        <input type="hidden" class="status-id" name="status_id" value="1">
+    </div>
+}

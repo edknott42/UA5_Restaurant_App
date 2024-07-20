@@ -1,8 +1,8 @@
-﻿
+﻿@model UA5_Restaurant_App.Models.TakeawayFormModel
 
 <div class="col-12 p-0 mt-md-2 mb-3 m-0">
     <div data-bs-spy="scroll" data-bs-target="#menu-navbar" data-bs-offset="0" class="menu-scrollspy m-0 row">
-        <partial name="~/Views/Menu/_menu.cshtml" />
+        <partial name="~/Views/Menu/_menu.cshtml" model="Model.MenuFormModel" />
         <div class="col-md-3 p-0 m-0 d-flex flex-wrap flex-md-column align-items-center">
             <div class="col-11 col-md-9 row gap-2 order-summary sticky-top mx-auto">
                 <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
@@ -19,33 +19,22 @@
                         <div class="card-body">
                             <h5 class="card-title">Your Basket</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Add or remove items</h6>
-                            <form id="basketForm">
                                 <div id="basket-items" class="col-12 p-0 m-0 row">
 
-
-                                <!-- Basket items will be dynamically added here -->
-
-
-
-                            </div>
-                            
+                                <!-- Basket items will be added here -->
+                                <partial name="~/Views/Takeaway/_basket.cshtml" model="Model.BasketFormModel" />
                                 
-
-                                @* <input type="hidden" name="Dish_Id" id="Dish_Ids" value="">
-                                <input type="hidden" name="Quantity" id="Quantities" value="">
-                                <input type="hidden" name="Total_Price" id="Total_Price" value=""> *@
-
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12 col-11 p-0 m-0 mx-auto">
                     <div class="card">
                         <div class="card-body">
-                            <button id="basketButton" class="btn btn-secondary d-flex border w-100">
+                            <a href="/Takeaway/Checkout?id=" id="checkoutButton" class="btn btn-secondary d-flex border w-100">
                                 <i class="fa-solid fa-shopping-cart m-auto ms-0" aria-hidden="true"></i>
                                 <span class="me-auto">Checkout</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

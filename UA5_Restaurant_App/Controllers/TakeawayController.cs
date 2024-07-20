@@ -17,8 +17,16 @@ namespace UA5_Restaurant_App.Controllers
         public IActionResult Index()
         {
             ViewData["PageClass"] = "takeaway";
-            var menuItems = _context.MenuView.ToList();
-            return View(menuItems);
+            /*var menuItems = _context.MenuView.ToList();
+            return View(menuItems);*/
+
+            var model = new TakeawayFormModel
+            {
+                BasketFormModel = _context.BasketView.ToList(),
+                MenuFormModel = _context.MenuView.ToList()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -36,6 +44,7 @@ namespace UA5_Restaurant_App.Controllers
                 return StatusCode(500, $"Database error: {ex.Message}");
             }
         }
+
 
         public IActionResult Checkout()
         {
