@@ -38,6 +38,8 @@ namespace UA5_Restaurant_App.DatabaseFunctions
             if (dtResult.Rows.Count > 0)
             {
                 basketForm.Id = Convert.ToInt32(dtResult.Rows[0]["Id"].ToString());
+                /*basketForm.Basket_Id = Guid.Parse(dtResult.Rows[0]["Basket_Id"].ToString());*/
+                basketForm.Basket_Id = dtResult.Rows[0]["Basket_Id"].ToString();
             }
 
             return basketForm;

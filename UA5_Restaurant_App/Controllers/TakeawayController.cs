@@ -28,7 +28,7 @@ namespace UA5_Restaurant_App.Controllers
             {
                 basketForm = Basket.SaveBasket(basketForm);
 
-                var response = new { success = true, basketForm.Id };
+                var response = new { success = true, basketForm.Id, basketForm.Basket_Id };
                 return Ok(response);
             }
             catch (SqlException ex) // Catch SQL-related exceptions

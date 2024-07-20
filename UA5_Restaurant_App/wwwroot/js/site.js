@@ -159,7 +159,7 @@ $(function () {
         }
 
         // Create new item div
-        const newItemDiv = $('<div>').addClass('col-12 row align-items-start p-0 my-3 mx-0').attr('id', `basket-item-${id}`);
+        const newItemDiv = $('<div>').addClass('col-12 row align-items-start p-0 my-3 mx-0 basket-item-line').attr('id', `basket-item-${id}`);
 
         // HTML for the new item
         newItemDiv.html(`
@@ -181,8 +181,9 @@ $(function () {
                     <option value="5">5</option>
                 </select>
             </div>
-            <input type="hidden" name="Id" id="Id" value="">
-            <input type="hidden" name="Dish_id" id="Dish_Id" value="${id}">
+            <input type="hidden" class="item-id" name="Id" id="Id" value="">
+            <input type="hidden" class="basket-id" name="basket_id" id="basket_id" value="">
+            <input type="hidden" class="dish-id" name="Dish_id" id="Dish_Id" value="${id}">
             <input type="hidden" class="price" name="Price" id="Price" value="${price.toFixed(2)}">
             <input type="hidden" class="quantity" name="Quantity" id="Quantity" value="1">
         `);
@@ -209,48 +210,75 @@ $(function () {
         });
     }
 
-    // Handle form submission
     $('#basketButton').on('click', function () {
         $('#basketForm').trigger('submit');
     });
 
+    let basketIdSet = false;
+
     $('#basketForm').on('submit', function (event) {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault(); 
 
         $("#basketButton").text("Checking out...");
 
-        let formData = new FormData(this);
         let url = '/takeaway/SaveBasket';
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                var UserID = data.Id;
-                $("#basketButton").html('<i class="fa fa-check  m-auto ms-0"></i><span class="me-auto">Proceeding to Checkout...</span>');
-                $("#basketForm #Id").val(UserID);
-                setTimeout(function () {
-                    $("#basketButton").html('<i class="fa-solid fa-cart-shopping m-auto ms-0"></i><span class="me-auto">Checkout Now</span>');
-                }, 2000);
-            },
-            timeout: 3000,
-            tryCount: 0,
-            retryLimit: 3,
-            error: function (xhr, textStatus, errorThrown) {
-                if (textStatus === 'timeout') {
-                    this.tryCount++;
-                    if (this.tryCount <= this.retryLimit) {
-                        $.ajax(this);
+        let items = $('#basketForm .basket-item-line');
+        let totalItems = items.length;
+        let itemsProcessed = 0;
+
+        items.each(function () {
+            let itemData = {
+                id: $(this).find('.item-id').val(),
+                basket_id: $(this).find('.basket-id').val(),
+                dish_id: $(this).find('.dish-id').val(),
+                price: $(this).find('.price').val(),
+                quantity: $(this).find('.quantity').val(),
+            };
+
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: itemData,
+                success: function (data) {
+
+                    if (!basketIdSet) {
+                        $(".basket-id").val(data.basket_Id);
+                        basketIdSet = true;
+                    }
+
+                    itemsProcessed++;
+                    if (itemsProcessed === totalItems) {
+                        $("#basketButton").html('<i class="fa fa-check m-auto ms-0"></i><span class="me-auto">Proceeding to Checkout...</span>');
+
+                        setTimeout(function () {
+                            $("#basketButton").html('<i class="fa-solid fa-cart-shopping m-auto ms-0"></i><span class="me-auto">Checkout Now</span>');
+                        }, 2000);
+                    }
+
+
+                    console.log('Success:', data);
+                    console.log('Basket ID:', $(".basket-id").val());
+
+                },
+                timeout: 3000,
+                tryCount: 0,
+                retryLimit: 3,
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error('Error:', textStatus, errorThrown);
+                    if (textStatus === 'timeout') {
+                        this.tryCount++;
+                        if (this.tryCount <= this.retryLimit) {
+                            $.ajax(this);
+                            return;
+                        }
                         return;
                     }
-                    return;
-                }
-                alert("An error has occurred saving the data.");
-                $("#basketButton").html('<i class="fa fa-times  m-auto ms-0"></i><span class="me-auto">Check out Failed</span>');
-                return 0;
-            },
+                    alert("An error has occurred saving the data.");
+                    $("#basketButton").html('<i class="fa fa-times m-auto ms-0"></i><span class="me-auto">Check out Failed</span>');
+                    return 0;
+                },
+            });
         });
     });
 });
@@ -289,7 +317,7 @@ $('#checkoutForm').on('submit', function (event) {
             $("#saveCheckoutButton").html('<i class="fa fa-times  m-auto ms-0""></i>Checkout Failed');
         }
     });*/
-    
+
 });
 
 
