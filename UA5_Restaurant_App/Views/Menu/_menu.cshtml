@@ -26,16 +26,16 @@
     <h4 id="Starters">Starters</h4>
     <div class="menu-section-container mb-4">
         <div class="menu-section food">
-            @foreach (var item in Model.Where(m => m.Dish_Type_Id == 1))
+            @foreach (var item in Model.Where(m => m.Item_Type_Id == 1))
             {
-                <div class="card" id="@item.Id">
-                    <img src="/public/images/@item.Image_Path" class="card-img-top" alt="...">
+                <div class="card" id="@item.Item_Id" data-dietary-id="@item.Dietary_Id" style="display: none;">
+                    <img src="/public/images/@item.Image_Path" class="card-img-top" alt="@item.Item_Name Image">
                     <div class="card-body">
-                        <h5 class="card-title">@item.Dish_Name</h5>
-                        <p class="card-text">@item.Dish_Description</p>
-                        <p class="card-text">£@item.Price</p>
+                        <h5 class="card-title">@item.Item_Name</h5>
+                        <p class="card-text">@item.Item_Description</p>
+                        <p class="card-text">£@item.Item_Price</p>
                         <p class="text-muted small allergens text-center">@item.Dietary_Titles</p>
-                        <button type="button" class="btn btn-primary w-100 order-now-btn" id="@item.Id" data-dish-name="@item.Dish_Name" data-price="@item.Price">Order Now</button>
+                        <button type="button" class="btn btn-primary w-100 order-now-btn" data-item-id="@item.Item_Id" data-order-code="" data-item-name="@item.Item_Name" data-item-price="@item.Item_Price" data-item-quantity="1">Order Now</button>
                     </div>
                 </div>
             }
@@ -47,16 +47,16 @@
     <h4 id="Mains">Mains</h4>
     <div class="menu-section-container mb-4">
         <div class="menu-section food">
-            @foreach (var item in Model.Where(m => m.Dish_Type_Id == 2))
+            @foreach (var item in Model.Where(m => m.Item_Type_Id == 2))
             {
-                <div class="card" id="@item.Id">
-                    <img src="/public/images/@item.Image_Path" class="card-img-top" alt="...">
+                <div class="card" id="@item.Item_Id" data-dietary-id="@item.Dietary_Id" style="display: none;">
+                    <img src="/public/images/@item.Image_Path" class="card-img-top" alt="@item.Item_Name Image">
                     <div class="card-body">
-                        <h5 class="card-title">@item.Dish_Name</h5>
-                        <p class="card-text">@item.Dish_Description</p>
-                        <p class="card-text">£@item.Price</p>
+                        <h5 class="card-title">@item.Item_Name</h5>
+                        <p class="card-text">@item.Item_Description</p>
+                        <p class="card-text">£@item.Item_Price</p>
                         <p class="text-muted small allergens text-center">@item.Dietary_Titles</p>
-                        <button type="button" class="btn btn-primary w-100 order-now-btn" id="@item.Id" data-dish-name="@item.Dish_Name" data-price="@item.Price">Order Now</button>
+                        <button type="button" class="btn btn-primary w-100 order-now-btn" data-item-id="@item.Item_Id" data-order-code="" data-item-name="@item.Item_Name" data-item-price="@item.Item_Price" data-item-quantity="1">Order Now</button>
                     </div>
                 </div>
             }
@@ -69,16 +69,16 @@
     <h4 id="Desserts">Desserts</h4>
     <div class="menu-section-container mb-4">
         <div class="menu-section food">
-            @foreach (var item in Model.Where(m => m.Dish_Type_Id == 4))
+            @foreach (var item in Model.Where(m => m.Item_Type_Id == 4))
             {
-                <div class="card" id="@item.Id">
-                    <img src="/public/images/@item.Image_Path" class="card-img-top" alt="...">
+                <div class="card" id="@item.Item_Id" data-dietary-id="@item.Dietary_Id" style="display: none;">
+                    <img src="/public/images/@item.Image_Path" class="card-img-top" alt="@item.Item_Name Image">
                     <div class="card-body">
-                        <h5 class="card-title">@item.Dish_Name</h5>
-                        <p class="card-text">@item.Dish_Description</p>
-                        <p class="card-text">£@item.Price</p>
+                        <h5 class="card-title">@item.Item_Name</h5>
+                        <p class="card-text">@item.Item_Description</p>
+                        <p class="card-text">£@item.Item_Price</p>
                         <p class="text-muted small allergens text-center">@item.Dietary_Titles</p>
-                        <button type="button" class="btn btn-primary w-100 order-now-btn" id="@item.Id" data-dish-name="@item.Dish_Name" data-price="@item.Price">Order Now</button>
+                        <button type="button" class="btn btn-primary w-100 order-now-btn" data-item-id="@item.Item_Id" data-order-code="" data-item-name="@item.Item_Name" data-item-price="@item.Item_Price" data-item-quantity="1">Order Now</button>
                     </div>
                 </div>
             }
@@ -88,16 +88,16 @@
     <h4 id="Sides">Sides</h4>
     <div class="menu-section-container mb-4">
         <div class="menu-section food">
-            @foreach (var item in Model.Where(m => m.Dish_Type_Id == 3))
+            @foreach (var item in Model.Where(m => m.Item_Type_Id == 3))
             {
-                <div class="card" id="@item.Id">
-                    <img src="/public/images/@item.Image_Path" class="card-img-top" alt="...">
+                <div class="card" id="@item.Item_Id" data-dietary-id="@item.Dietary_Id" style="display: none;">
+                    <img src="/public/images/@item.Image_Path" class="card-img-top" alt="@item.Item_Name Image">
                     <div class="card-body">
-                        <h5 class="card-title">@item.Dish_Name</h5>
-                        <p class="card-text">@item.Dish_Description</p>
-                        <p class="card-text">£@item.Price</p>
+                        <h5 class="card-title">@item.Item_Name</h5>
+                        <p class="card-text">@item.Item_Description</p>
+                        <p class="card-text">£@item.Item_Price</p>
                         <p class="text-muted small allergens text-center">@item.Dietary_Titles</p>
-                        <button type="button" class="btn btn-primary w-100 order-now-btn" id="@item.Id" data-dish-name="@item.Dish_Name" data-price="@item.Price">Order Now</button>
+                        <button type="button" class="btn btn-primary w-100 order-now-btn" data-item-id="@item.Item_Id" data-order-code="" data-item-name="@item.Item_Name" data-item-price="@item.Item_Price" data-item-quantity="1">Order Now</button>
                     </div>
                 </div>
             }
@@ -106,67 +106,20 @@
 
     <h4 id="Drinks">Drinks</h4>
     <div class="menu-section-container mb-4">
-        <div class="menu-section drinks">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1589423045402-6074a1bdf723?q=80&w=2551&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Drink 1</h5>
-                    <div class="row">
-                        <p class="card-text">Drink 1 Bio</p>
-                        <p class="card-text">Drink 1 Price</p>
+        <div class="menu-section food">
+            @foreach (var item in Model.Where(m => m.Item_Type_Id == 5))
+            {
+                <div class="card" id="@item.Item_Id" data-dietary-id="@item.Dietary_Id" style="display: none;">
+                    <img src="/public/images/@item.Image_Path" class="card-img-top" alt="@item.Item_Name Image">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Item_Name</h5>
+                        <p class="card-text">@item.Item_Description</p>
+                        <p class="card-text">£@item.Item_Price</p>
+                        <p class="text-muted small allergens text-center">@item.Dietary_Titles</p>
+                        <button type="button" class="btn btn-primary w-100 order-now-btn" data-item-id="@item.Item_Id" data-order-code="" data-item-name="@item.Item_Name" data-item-price="@item.Item_Price" data-item-quantity="1">Order Now</button>
                     </div>
-                    <p class="text-muted small text-center">Allergens</p>
-                    <a href="#" class="btn btn-primary w-100">Order Now</a>
                 </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1589423045402-6074a1bdf723?q=80&w=2551&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Drink 2</h5>
-                    <div class="row">
-                        <p class="card-text">Drink 2 Bio</p>
-                        <p class="card-text">Drink 2 Price</p>
-                    </div>
-                    <p class="text-muted small text-center">Allergens</p>
-                    <a href="#" class="btn btn-primary w-100">Order Now</a>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1589423045402-6074a1bdf723?q=80&w=2551&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Drink 3</h5>
-                    <div class="row">
-                        <p class="card-text">Drink 3 Bio</p>
-                        <p class="card-text">Drink 3 Price</p>
-                    </div>
-                    <p class="text-muted small text-center">Allergens</p>
-                    <a href="#" class="btn btn-primary w-100">Order Now</a>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1589423045402-6074a1bdf723?q=80&w=2551&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Drink 3</h5>
-                    <div class="row">
-                        <p class="card-text">Drink 3 Bio</p>
-                        <p class="card-text">Drink 3 Price</p>
-                    </div>
-                    <p class="text-muted small text-center">Allergens</p>
-                    <a href="#" class="btn btn-primary w-100">Order Now</a>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1589423045402-6074a1bdf723?q=80&w=2551&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Drink 3</h5>
-                    <div class="row">
-                        <p class="card-text">Drink 3 Bio</p>
-                        <p class="card-text">Drink 3 Price</p>
-                    </div>
-                    <p class="text-muted small text-center">Allergens</p>
-                    <a href="#" class="btn btn-primary w-100">Order Now</a>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>

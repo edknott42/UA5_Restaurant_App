@@ -11,7 +11,6 @@
         public DateOnly Booking_date { get; set; }
         public TimeOnly Booking_time { get; set; }
         public Int32 Table_size { get; set; }
-        public string? Special_requests { get; set; }
-        public string? Dietary_title { get; set; }
+        public string? Dietary_id { get; set; }
     }
 }

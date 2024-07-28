@@ -3,49 +3,66 @@
 *@
 @{
 }
+<div class="modal fade" id="dietaryModal" tabindex="-1" role="dialog" aria-labelledby="dietaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0">
+                <h5 class="modal-title mb-4 display-7 w-100" id="dietaryModallLabel">Enter Dietary Requirements</h5>
+                <button type="button" class="close p-0 pb-3 m-auto dietaryButton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-0">
+                <form id="dietaryForm">
+                    <div class="form-check text-start">
+                        <input class="form-check-input" type="checkbox" value="1" id="1">
+                        <label class="form-check-label" for="1">
+                            Vegetarian
+                        </label>
+                    </div>
+                    <div class="form-check my-2 text-start">
+                        <input class="form-check-input" type="checkbox" value="2" id="2">
+                        <label class="form-check-label" for="2">
+                            Vegan
+                        </label>
+                    </div>
+                    <div class="form-check my-2 text-start">
+                        <input class="form-check-input" type="checkbox" value="3" id="3">
+                        <label class="form-check-label" for="3">
+                            Gluten-Free
+                        </label>
+                    </div>
+                    <div class="form-check my-2 text-start">
+                        <input class="form-check-input" type="checkbox" value="4" id="4">
+                        <label class="form-check-label" for="4">
+                            Dairy-Free
+                        </label>
+                    </div>
+                    <div class="form-check my-2 text-start">
+                        <input class="form-check-input" type="checkbox" value="5" id="5">
+                        <label class="form-check-label" for="5">
+                            Nut-Free
+                        </label>
+                    </div>
+                    <div class="form-check my-2 text-start">
+                        <input class="form-check-input" type="checkbox" value="6" id="6">
+                        <label class="form-check-label" for="6">
+                            Halal
+                        </label>
+                    </div>
+                    @* <div class="text-start">
+                        <label class="form-label" for="inputOther">
+                            Any other?
+                        </label>
+                        <input class="form-control" type="text" value="" autocomplete="off" id="inputOther">
+                    </div> *@
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary clearDietaryButton">Clear</button>
 
-
-<form id="dietaryForm">
-    <div class="form-check text-start">
-        <input class="form-check-input" type="checkbox" value="vegetarian" id="Vegetarian">
-        <label class="form-check-label" for="Vegetarian">
-            Vegetarian
-        </label>
+                <button type="button" class="btn btn-primary dietaryButton" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-    <div class="form-check my-2 text-start">
-        <input class="form-check-input" type="checkbox" value="vegan" id="Vegan">
-        <label class="form-check-label" for="Vegan">
-            Vegan
-        </label>
-    </div>
-    <div class="form-check my-2 text-start">
-        <input class="form-check-input" type="checkbox" value="Gluten" id="Gluten">
-        <label class="form-check-label" for="Gluten">
-            Gluten-Free
-        </label>
-    </div>
-    <div class="form-check my-2 text-start">
-        <input class="form-check-input" type="checkbox" value="dairy_free" id="checkDairyFree">
-        <label class="form-check-label" for="checkDairyFree">
-            Dairy-Free
-        </label>
-    </div>
-    <div class="form-check my-2 text-start">
-        <input class="form-check-input" type="checkbox" value="nut_free" id="checkNutFree">
-        <label class="form-check-label" for="checkNutFree">
-            Nut-Free
-        </label>
-    </div>
-    <div class="form-check my-2 text-start">
-        <input class="form-check-input" type="checkbox" value="halal" id="checkHalal">
-        <label class="form-check-label" for="checkHalal">
-            Halal
-        </label>
-    </div>
-    <div class="text-start">
-        <label class="form-label" for="inputOther">
-            Any other?
-        </label>
-        <input class="form-control" type="text" value="" autocomplete="off" id="inputOther">
-    </div>
-</form>
+</div>

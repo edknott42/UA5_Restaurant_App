@@ -18,30 +18,11 @@
 
                 <a type="button" class="btn btn-light d-flex w-100" asp-area="" asp-controller="Booking" asp-action="Index"><i class="fa-regular fa-calendar m-auto ms-0"></i> <span class="me-auto">Book a Table</span></a>
                 <a type="button" class="btn btn-primary d-flex w-100" asp-area="" asp-controller="Takeaway" asp-action="Index"><i class="fa-solid fa-car m-auto ms-0"></i> <span class="me-auto">Order a Takeaway</span></a>
-                <button type="button" class="btn btn-link" id="clearDietaryButton">Clear Dietary Requirements</button>
+                <button type="button" class="btn btn-link clearDietaryButton">Clear Dietary Requirements</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- dietary Modal -->
-<div class="modal fade" id="dietaryModal" tabindex="-1" role="dialog" aria-labelledby="dietaryModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header pb-0 border-0">
-                <h5 class="modal-title mb-4 display-7 w-100" id="dietaryModallLabel">Enter dietary requirements</h5>
-                <button type="button" class="close p-0 pb-3 m-auto dietaryButton" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body pt-0">
-                <partial name="~/Views/Dietary/_dietary.cshtml" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="saveDietaryButton" class="btn btn-secondary">Save Changes</button>
-
-                <button type="button" class="btn btn-primary dietaryButton" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+<partial name="~/Views/Dietary/_dietary.cshtml" />

@@ -17,6 +17,7 @@ namespace UA5_Restaurant_App.DatabaseFunctions
             modelBuilder.Entity<MenuFormModel>().HasNoKey().ToView("Menu_View");
             modelBuilder.Entity<BasketFormModel>().HasNoKey().ToView("Basket_View");
 
+
             base.OnModelCreating(modelBuilder);
         }
 

@@ -2,13 +2,13 @@
 {
     public class MenuFormModel
     {
-        public int Id { get; set; }
-        public string? Dish_Name { get; set; }
-        public string? Dish_Description { get; set; }
-        public decimal? Price { get; set; }
-        public int? Dish_Type_Id { get; set; }
-        public string? Dish_Type { get; set; }
-        public string? Dietary_Info { get; set; }
+        public int Item_Id { get; set; }
+        public string? Item_Name { get; set; }
+        public string? Item_Description { get; set; }
+        public decimal? Item_Price { get; set; }
+        public int? Item_Type_Id { get; set; }
+        public string? Item_Type { get; set; }
+        public string? Dietary_Id { get; set; }
         public string? Dietary_Titles { get; set; }
         public string? Image_Path { get; set; }
     }

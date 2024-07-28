@@ -27,8 +27,7 @@ namespace UA5_Restaurant_App.DatabaseFunctions
                     cmd.Parameters.AddWithValue("@Booking_date", bookingForm.Booking_date);
                     cmd.Parameters.AddWithValue("@Booking_time", bookingForm.Booking_time);
                     cmd.Parameters.AddWithValue("@Table_size", bookingForm.Table_size);
-                    cmd.Parameters.AddWithValue("@Special_requests", bookingForm.Special_requests);
-                    cmd.Parameters.AddWithValue("@Dietary_title", bookingForm.Dietary_title);
+                    cmd.Parameters.AddWithValue("@Dietary_id", bookingForm.Dietary_id);
 
 
 

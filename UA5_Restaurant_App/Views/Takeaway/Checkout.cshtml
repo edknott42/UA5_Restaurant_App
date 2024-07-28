@@ -1,64 +1,94 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model UA5_Restaurant_App.Models.CheckoutFormModel
 
-<div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
-    <div class="card w-100">
-        <div class="card-body">
-            <h5 class="card-title">Your Basket</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Add or remove items</h6>
-            <div id="basket-items" class="col-12 p-0 m-0 row">
-                <form>
+<div class="col-12 p-0 m-0 row">
 
-                    <!-- Basket items will be dynamically added here -->
+    <div class="col-md-9 p-0 m-0 row">
+
+        <div class="col-md-6 p-0 m-0">
+            <div class="col-12 p-0 m-0 d-flex mx-auto">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Your Delivery Details</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Enter delivery details
+                        </h6>
+                        <form id="checkoutForm" class="form-group">
+                            @Html.HiddenFor(m => Model.Order_id, new { @class = "form-control" })
+                            <div class="col-12 p-0 m-0 my-3 row">
+                                <div class="col-6 ps-0 pe-1 m-0">
+                                    <label for="First_name" class="form-label text-start p-0" hidden="">First Name</label>
+                                    @Html.TextBoxFor(m => Model.First_name, new { @class = "form-control required", @placeholder = "First Name" })
+                                </div>
+                                <div class="col-6 pe-0 ps-1 m-0">
+                                    <label for="Last_name" class="form-label text-start p-0" hidden="">Last Name</label>
+                                    @Html.TextBoxFor(m => Model.Last_name, new { @class = "form-control required", @placeholder = "Last Name" })
+                                </div>
+                            </div>
+                            <div class="my-3">
+                                <label for="Email_address" class="form-label text-start p-0" hidden="">Email Address</label>
+                                @Html.TextBoxFor(m => Model.Email_address, new { @class = "form-control required", @placeholder = "Email address" })
+                            </div>
+                            <div class="my-3">
+                                <label for="Address_Line_1" class="form-label text-start p-0" hidden="">Address Line 1</label>
+                                @Html.TextBoxFor(m => Model.Address_Line_1, new { @class = "form-control required", @placeholder = "Address Line 1" })
+                            </div>
+                            <div class="my-3">
+                                <label for="Address_Line_2" class="form-label text-start p-0" hidden="">Address Line 2</label>
+                                @Html.TextBoxFor(m => Model.Address_Line_2, new { @class = "form-control", @placeholder = "Address Line 2" })
+                            </div>
+                            <div class="my-3">
+                                <label for="Postal_town" class="form-label text-start p-0" hidden="">Town/City</label>
+                                @Html.TextBoxFor(m => Model.Postal_town, new { @class = "form-control required", @placeholder = "Town/City" })
+                            </div>
 
 
-                </form>
+                            <div class="my-3">
+                                <label for="County" class="form-label text-start p-0" hidden="">County</label>
+                                @Html.TextBoxFor(m => Model.County, new { @class = "form-control required", @placeholder = "County" })
+                            </div>
+
+                            <div class="my-3">
+                                <label for="Postal_code" class="form-label text-start p-0" hidden="">Postal Code</label>
+                                @Html.TextBoxFor(m => Model.Postal_code, new { @class = "form-control required", @placeholder = "Postal Code" })
+                            </div>
+                            @Html.HiddenFor(m => Model.Total_price, new { @class = "form-control" })
+                            @Html.HiddenFor(m => Model.Order_code, new { @class = "form-control" })
+                            <button type="button" id="saveCheckoutForm" class="btn btn-primary d-flex w-100"><i class="fa-solid fa-shopping-cart m-auto ms-0"></i><span class="me-auto">Order Now</span></button>
+                        </form>
+                    </div>
+                </div>
             </div>
-
+        </div>
+        <div class="col-md-5 p-0 m-0 mx-auto">
+            <div class="col-12 p-0 m-0 d-flex mx-auto">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Your Payment Details</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Enter payment details
+                        </h6>
+                        <div class="form-group" id="payment-element">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
-    <div class="card w-100">
-        <div class="card-body">
-            <h5 class="card-title">Your Delivery Details</h5>
-            <h6 class="card-subtitle mb-2 text-muted">
-                <button type="button" class="btn btn-link text-center deliveryButton" data-toggle="modal" data-target="#deliveryModal">
-                    Enter delivery details
-                </button>
-            </h6>
+    <div class="col-md-3 p-0 m-0 d-flex">
+        <div class="card w-100">
+            <div class="card-body  justify-content-start">
+                <h5 class="card-title">Your Basket</h5>
+                <div id="basket-items" class="col-12 p-0 m-0 row">
 
-            <div class="col-12 row align-items-center my-3 mx-0">
-                <div class="col-4 p-0 m-0"><p class="card-text text-start">Name:</p></div>
-                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourName"></p></div>
-            </div>
-            <div class="col-12 row align-items-center my-3 mx-0">
-                <div class="col-4 p-0 m-0"><p class="card-text text-start">Email:</p></div>
-                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourEmail"></p></div>
-            </div>
-            <div class="col-12 row align-items-start my-3 mx-0">
-                <div class="col-4 p-0 m-0"><p class="card-text text-start">Address:</p></div>
-                <div class="col-8 p-0 m-0"><p class="card-text small text-start" id="yourAddress"></p></div>
+                <partial name="~/Views/Takeaway/_basket.cshtml" model="Model.BasketFormModel" />
+                </div>
+                <div class="col-12 p-0 m-0 mt-auto">
+                    <h6 class="basket-prices mb-2">Sub-Total: <span id="basketTotal"></span></h6>
+                    <h6 class="basket-prices mb-2">Delivery: <span><span id="deliveryAvailable" class="text-muted small text-end">Please enter a delivery address</span><span id="deliveryCost" class="text-muted small"></span></span></h6>
+                    <h6 class="basket-prices mb-2">Total: <span id="checkoutTotal"></span></h6>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="col-md-12 col-11 p-0 m-0 mx-auto">
-    <div class="card">
-        <div class="card-body">
-            <button type="button" class="btn btn-light d-flex border w-100 deliveryButton" data-toggle="modal" data-target="#deliveryModal">
-                <i class="fa-solid fa-truck m-auto ms-0" aria-hidden="true"></i>
-                <span class="me-auto">Enter delivery details</span>
-            </button>
-        </div>
-    </div>
-</div>
 
-<!-- Delivery Modal -->
-<partial name="~/Views/Takeaway/_delivery.cshtml" />
-
-<!-- Payment Modal -->
-<partial name="~/Views/Takeaway/_payment.cshtml" />
+</div>

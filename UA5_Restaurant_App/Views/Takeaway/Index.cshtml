@@ -12,18 +12,22 @@
                     </button>
                 </div>
                 <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
-                    <button type="button" class="btn btn-link mx-auto" id="clearDietaryButton">Clear Dietary Requirements</button>
+                    <button type="button" class="btn btn-link mx-auto clearDietaryButton">Clear Dietary Requirements</button>
                 </div>
                 <div class="col-md-12 col-11 p-0 m-0 d-flex mx-auto">
                     <div class="card w-100">
-                        <div class="card-body">
+                        <div class="card-body order-code" data-order-code="">
                             <h5 class="card-title">Your Basket</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Add or remove items</h6>
-                                <div id="basket-items" class="col-12 p-0 m-0 row">
+                            <div id="basket-items" class="col-12 p-0 m-0 row">
 
                                 <!-- Basket items will be added here -->
                                 <partial name="~/Views/Takeaway/_basket.cshtml" model="Model.BasketFormModel" />
-                                
+
+                            </div>
+                            <div class="col-12 p-0 m-0 ">
+                                <h6 class="basket-prices mb-2">Delivery: <span class="text-muted small">Calculated at checkout</span></h6>
+                                <h6 class="basket-prices mb-2">Total: <span id="basketSubTotal"></span></h6>
                             </div>
                         </div>
                     </div>
@@ -31,10 +35,10 @@
                 <div class="col-md-12 col-11 p-0 m-0 mx-auto">
                     <div class="card">
                         <div class="card-body">
-                            <a href="/Takeaway/Checkout?id=" id="checkoutButton" class="btn btn-secondary d-flex border w-100">
+                            <button id="checkoutButton" class="btn btn-secondary d-flex border w-100">
                                 <i class="fa-solid fa-shopping-cart m-auto ms-0" aria-hidden="true"></i>
                                 <span class="me-auto">Checkout</span>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -48,38 +52,4 @@
 
 
 <!-- dietary Modal -->
-<div class="modal fade" id="dietaryModal" tabindex="-1" role="dialog" aria-labelledby="dietaryModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header pb-0 border-0">
-                <h5 class="modal-title mb-4 display-7 w-100" id="dietaryModallLabel">Enter dietary requirements</h5>
-                <button type="button" class="close p-0 pb-3 m-auto dietaryButton" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body pt-0">
-                <partial name="~/Views/Dietary/_dietary.cshtml" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="saveDietaryButton" class="btn btn-secondary">Save Changes</button>
-
-                <button type="button" class="btn btn-primary dietaryButton" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<gmpx-api-loader key="AIzaSyClr_uuxlkfyRMISi77lYUshO4f2_nfG9Y" solution-channel="GMP_QB_addressselection_v3_cAC">
-</gmpx-api-loader>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClr_uuxlkfyRMISi77lYUshO4f2_nfG9Y&libraries=places"></script>
-
-<script>
-    const scrollSpy = new bootstrap.ScrollSpy(document.querySelector('.menu-scrollspy'), {
-        target: '#menu-navbar'
-    });
-</script>
+<partial name="~/Views/Dietary/_dietary.cshtml" />

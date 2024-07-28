@@ -110,6 +110,12 @@ a {
     background-size: cover;
 }
 
+.confirmation {
+    background-image: linear-gradient(rgb(0 0 0 / 60%), rgb(0 0 0 / 65%)), url(https://plus.unsplash.com/premium_photo-1675975678457-d70708bf77c8?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+    background-position: center;
+    background-size: cover;
+}
+
 .bg-dark {
     background-color: #111 !important
 }
@@ -169,7 +175,7 @@ a {
         box-shadow: 0 0 0 2px #ffffff80, 0 0 0 4px #ff744580 !important
     }
 */
-.btn-primary {
+.btn-primary, .btn-primary.disabled, .btn-primary:disabled {
     color: #fff;
     background-color: #CD212A;
     border-color: #CD212A;
@@ -314,48 +320,57 @@ a {
     object-position: center;
 }
 
+.basket-card-img {
+    height: 3rem;
+    width: 4rem;
+    object-fit: cover;
+    object-position: center;
+}
+
+.takeaway .basket-card-img {
+    display: none;
+}
+
 .menu-tab .card-text {
     width: 50%;
 }
 
-/* Customise the scrollbar */
-.menu-section-container::-webkit-scrollbar, .menu-scrollspy::-webkit-scrollbar {
-    width: 8px; /* Width of the scrollbar */
+/* Scrollbar */
+.menu-section-container::-webkit-scrollbar, .menu-scrollspy::-webkit-scrollbar, #basket-items::-webkit-scrollbar {
+    width: 8px;
 }
 
 /* Handle */
-.menu-section-container::-webkit-scrollbar-thumb, .menu-scrollspy::-webkit-scrollbar-thumb {
-    background-color: #FF4D4D80; /* Colour of the scrollbar handle */
-    border-radius: 4px; /* Rounded corners of the handle */
+.menu-section-container::-webkit-scrollbar-thumb, .menu-scrollspy::-webkit-scrollbar-thumb, #basket-items::-webkit-scrollbar-thumb {
+    background-color: #FF4D4D80;
+    border-radius: 4px;
 }
 
 /* Track */
-.menu-section-container::-webkit-scrollbar-track, .menu-scrollspy::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Colour of the scrollbar track */
+.menu-section-container::-webkit-scrollbar-track, .menu-scrollspy::-webkit-scrollbar-track, #basket-items::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }
 
-/* Handle on hover */
-.menu-section-container::-webkit-scrollbar-thumb:hover, .menu-scrollspy::-webkit-scrollbar-thumb:hover {
-    background-color: #CD212A; /* Colour of the scrollbar handle on hover */
+/* Hover */
+.menu-section-container::-webkit-scrollbar-thumb:hover, .menu-scrollspy::-webkit-scrollbar-thumb:hover, #basket-items::-webkit-scrollbar-thumb:hover {
+    background-color: #CD212A;
 }
 
-/* Track on hover */
-.menu-section-container::-webkit-scrollbar-track:hover, .menu-scrollspy::-webkit-scrollbar-track:hover {
-    background: #ddd; /* Colour of the scrollbar track on hover */
+/* Track hover */
+.menu-section-container::-webkit-scrollbar-track:hover, .menu-scrollspy::-webkit-scrollbar-track:hover, #basket-items::-webkit-scrollbar-track:hover {
+    background: #ddd;
 }
 
 /* Corner */
-.menu-section-container::-webkit-scrollbar-corner, .menu-scrollspy::-webkit-scrollbar-corner {
-    background: transparent; /* Hide the scrollbar corner */
+.menu-section-container::-webkit-scrollbar-corner, .menu-scrollspy::-webkit-scrollbar-corner, #basket-items::-webkit-scrollbar-corner {
+    background: transparent;
 }
 
-
-/*.delivery-select {
-    margin-left: -33px !important;
-    width: calc(100% + 33px) !important;
-    padding-left: 33px !important;
-    background-color: transparent;
-}*/
+.basket-item-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
 button.close {
     padding: 0;
@@ -373,6 +388,10 @@ button.close {
     color: #000;
     text-shadow: 0 1px 0 #fff;
     opacity: 0.3;
+}
+
+.checkout .close {
+    display: none;
 }
 
 .modal-title {
@@ -456,6 +475,9 @@ button.close {
     width: 50px;
 }
 
+.checkout .input-quantity, .takeaway .checkout-item-quantity {
+    display: none;
+}
 
 .no-matches {
     margin: 2rem 0 0 0;
@@ -478,4 +500,11 @@ button.close {
     min-height: 20px;
     max-height: 400px;
     overflow-y: auto;
+}
+
+.basket-prices {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
 }

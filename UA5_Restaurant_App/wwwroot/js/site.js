@@ -5,11 +5,10 @@
 
 
 
-$('#myTab a').on('click', function (e) {
-    e.preventDefault()
+$('#myTab a').on('click', function (event) {
+    event.preventDefault()
     $(this).tab('show')
 })
-
 
 $('.deliveryButton').on('click', function () {
     $('#deliveryModal').modal('toggle')
@@ -19,253 +18,483 @@ $('.dietaryButton').on('click', function () {
     $('#dietaryModal').modal('toggle')
 })
 
-$('#saveDietaryButton').on('click', function () {
-    $('#dietaryForm').trigger('submit');
-})
-
-$('.form-check-input').on('click', function () {
-    $('#dietaryForm').trigger('submit');
-})
-
-
 // Dietary Preference Cookies
 $(function () {
-    // Load saved dietary preferences from cookies
-    function loadPreferences() {
-        var cookie = document.cookie.match('(^|[^;]+)\\s*dietaryPreferences\\s*=\\s*([^;]+)');
-        if (cookie) {
-            return JSON.parse(decodeURIComponent(cookie.pop()));
-        }
-        return {};
+    // Set cookie, used example from W3 Schools
+    function setCookie(cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        console.log(`Cookie set: ${cname}=${cvalue}; ${expires}`);
     }
 
-    // Save dietary preferences to cookies
-    function savePreferences(preferences) {
-        var cookieValue = encodeURIComponent(JSON.stringify(preferences));
-        document.cookie = `dietaryPreferences=${cookieValue}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-        $('#Dietary_title').val(cookieValue);
-    }
-
-    // Filter cards based on preferences
-    function filterCards(preferences) {
-        var anyPreferenceSelected = false;
-
-        // Check if any preference is selected
-        $.each(preferences, function (key, value) {
-            if (value) {
-                anyPreferenceSelected = true;
-                return false;
+    function getCookie(cname) {
+        let name = cname + "=";
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
             }
-        });
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
 
-        // Show all cards if no preferences are selected
-        if (!anyPreferenceSelected) {
+    function checkCookie() {
+        let dietaryInfo = [];
+        $('#dietaryForm input[type=checkbox]:checked').each(function () {
+            dietaryInfo.push(this.value);
+        });
+        let dietaryInfoStr = dietaryInfo.join(',');
+        setCookie("dietary_info", dietaryInfoStr, 36500);
+        console.log(`Updated cookie with dietary info: ${dietaryInfoStr}`);
+    }
+
+    function filterCards() {
+        let dietaryInfoStr = getCookie("dietary_info");
+        let dietaryInfo = dietaryInfoStr ? dietaryInfoStr.split(',') : [];
+        console.log(`Filtering cards with dietary info: ${dietaryInfo}`);
+
+        if (dietaryInfo.length === 0 || dietaryInfoStr.trim() === "") {
             $('.food .card').show();
-            $('.menu-section').find('.no-matches').remove();
-            return;
+        } else {
+            $('.food .card').each(function () {
+                let cardDietaryIds = $(this).attr('data-dietary-id').toString().split(',').map(id => id.trim());
+                if (cardDietaryIds.some(id => dietaryInfo.includes(id))) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
         }
+        noMatches();
+    }
 
-        // Reset visibility for all cards
-        $('.food .card').hide();
-
-        // Show cards based on preferences
-        $.each(preferences, function (key, value) {
-            if (value) {
-                $('.food .card .allergens:contains("' + key + '")').closest('.card').show();
-            }
-        });
-
-        // Check if any cards are visible in each menu section
+    function noMatches() {
         $('.menu-section').each(function () {
             var visibleCards = $(this).find('.card:visible');
             if (visibleCards.length === 0) {
-                // No matching dishes, show no matches message
-                $(this).append('<p class="no-matches">Sorry, no dish matches your requirements</p>');
+                if (!$(this).find('.no-matches').length) {
+                    $(this).append('<p class="no-matches">Sorry, no dish matches your requirements</p>');
+                }
             } else {
-                // Remove no matches message if shown
                 $(this).find('.no-matches').remove();
             }
         });
     }
 
-    // Load preferences from cookies on page load
-    var preferences = loadPreferences();
-    $.each(preferences, function (key, value) {
-        $('#' + key).prop('checked', value);
+    $(function () {
+        let dietaryInfoStr = getCookie("dietary_info");
+        if (dietaryInfoStr) {
+            let dietaryInfo = dietaryInfoStr.split(',');
+            dietaryInfo.forEach(function (value) {
+                $(`#dietaryForm input[type=checkbox][value="${value}"]`).prop('checked', true);
+            });
+        }
+        filterCards();
     });
 
-    // Filter cards based on loaded preferences
-    filterCards(preferences);
-
-    // Form submission
-    $('#dietaryForm').on('submit', function (event) {
-        event.preventDefault();
-
-        // Serialise form data into preferences object
-        var formData = {};
-        $('#dietaryForm input[type=checkbox]').each(function () {
-            formData[this.id] = this.checked;
-        });
-
-        // Save to cookies
-        savePreferences(formData);
-
-        // Filter cards based on current form data
-        filterCards(formData);
+    $('#dietaryForm input[type=checkbox]').on('click', function () {
+        checkCookie();
+        filterCards();
     });
 
-    // Clear preferences
-    $('#clearDietaryButton').on('click', function () {
+    $('.clearDietaryButton').on('click', function () {
         $('#dietaryForm input[type=checkbox]').prop('checked', false);
-        var formData = {};
-        $('#dietaryForm input[type=checkbox]').each(function () {
-            formData[this.id] = false;
-        });
-        savePreferences(formData);
-        filterCards(formData);
-    });
 
-    // Update already saved dietary info on page load
-    $('#Dietary_title').val(encodeURIComponent(JSON.stringify(preferences)));
+        setCookie("dietary_info", "", -1);
+        filterCards();
+    });
 });
 
 
-/*
 
-// Add to basket
 $(function () {
+
+    // Update order buttons with order code to ensure doesn't change on new basket post
+    function updateOrderButton() {
+        const currentUrl = new URL(window.location.href);
+        const params = new URLSearchParams(currentUrl.search);
+        orderCode = params.get('orderCode') || '';
+
+        $('.order-now-btn').each(function () {
+            $(this).attr('data-order-code', orderCode);
+        });
+        $(`.order-code`).attr('data-order-code', orderCode);
+    };
+
+    updateOrderButton();
+
+    // On click of order button fetch details and then add/update basket
     $('.order-now-btn').on('click', function (event) {
         event.preventDefault();
 
-        const dishName = $(this).data('dish-name');
-        const price = parseFloat($(this).data('price'));
-        const id = $(this).attr('id');
+        const itemId = $(this).attr('data-item-id');
+        const itemName = $(this).attr('data-item-name');
+        const itemPrice = parseFloat($(this).attr('data-item-price'));
 
+        addToBasket(itemId, itemName, itemPrice)
+        calculateBasketTotal()
+        setTimeout(function () {
+            updateOrderButton();
+        }, 100);
 
-        // Add item to basket
-        addToBasket(id, dishName, price);
+        console.log('Item id: ' + itemId + ' Item price ' + itemPrice);
     });
 
-    function addToBasket(id, dishName, price) {
-        const basketItemsDiv = $('#basket-items');
+    // Add items to basket 
+    function addToBasket(itemId, itemName, itemPrice) {
+        const basketDiv = $('#basket-items');
+        const itemDiv = $(`.basket-item-line[data-item-id="${itemId}"]`);
 
-        // Check if item already exists in the basket
-        let existingItem = basketItemsDiv.find(`#basket-item-${id}`);
-        if (existingItem.length > 0) {
-            let quantitySelect = existingItem.find('.input-quantity');
-            let newQuantity = parseInt(quantitySelect.val()) + 1;
-            quantitySelect.val(newQuantity).trigger('change');
+        // Add multiple items to 1 line up to a max quantitiy of 5
+        if (itemDiv.length > 0) {
+            let quantity = itemDiv.find('.input-quantity');
+            let newQuantity = parseInt(quantity.val()) + 1;
+            quantity.val(newQuantity).trigger('change');
             return;
         }
 
-        // Create new item div
-        const newItemDiv = $('<div>').addClass('col-12 row align-items-start p-0 my-3 mx-0 basket-item-line').attr('id', `basket-item-${id}`);
 
-        // HTML for the new item
+        // Add item html in basket card
+        const newItemDiv = $(`<div class="col-12 row align-items-start p-0 my-3 mx-0 basket-item-line" data-item-id="${itemId}" data-item-price="${itemPrice.toFixed(2)}" data-item-total-price="${itemPrice.toFixed(2)}" data-item-quantity="1">`)
+
         newItemDiv.html(`
-            <div class="col-auto p-0">
-                <button type="button" class="close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="col-7 p-0 ms-2 row">
-                <p class="card-title text-start p-0 m-0">${dishName}</p>
-                <p class="card-text text-start p-0 text-muted">£<span class="item-price">${price.toFixed(2)}</span></p>
-            </div>
-            <div class="col-auto ms-auto p-0">
-                <select class="basket input-quantity form-control-sm">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-            <input type="hidden" class="item-id" name="Id" id="Id" value="" data-id="${id}">
-            <input type="hidden" class="basket-id" name="basket_id" id="basket_id" value="" data-id="${id}">
-            <input type="hidden" class="dish-id" name="Dish_id" id="Dish_Id" value="${id}" data-id="${id}">
-            <input type="hidden" class="price" name="Price" id="Price" value="${price.toFixed(2)}" data-id="${id}">
-            <input type="hidden" class="quantity" name="Quantity" id="Quantity" value="1" data-id="${id}">
-        `);
+        <div class="col-auto p-0">
+            <button type="button" class="btn btn-danger btn-sm close" data-item-id="${itemId}">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="col-7 p-0 ms-2 row">
+            <p class="card-title text-start p-0 m-0">${itemName}</p>
+            <p class="card-text text-start p-0 text-muted">£<span class="item-total-price" data-item-id="@item.Item_Id">${itemPrice.toFixed(2)}</span></p>
+        </div>
+        <div class="col-auto ms-auto p-0">
+            <select class="basket input-quantity form-control-sm" data-item-id="${itemId}" data-item-quantity="1">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+    `);
 
-        basketItemsDiv.append(newItemDiv);
+        basketDiv.append(newItemDiv);
 
-        // Attach change event to the select element to update the price
-        newItemDiv.find('.input-quantity').on('change', function () {
-            const quantity = parseInt($(this).val());
-            const basePrice = parseFloat(price); // Assuming price is the base price for this item
-            const totalPrice = (basePrice * quantity).toFixed(2);
+        postBasket(itemId, itemPrice, 1, 1);
+    };
 
-            // Update displayed price
-            newItemDiv.find('.item-price').text(totalPrice);
-
-            // Update hidden input value with total price and quantitiy
-            newItemDiv.find('.price').val(totalPrice);
-            newItemDiv.find('.quantity').val(quantity);
-        });
-
-        // Attach click event to the close button to remove the item
-        newItemDiv.find('.close').on('click', function () {
-            newItemDiv.remove();
-        });
-    }
-
-    $('#basketButton').on('click', function () {
-        $('#basketForm').trigger('submit');
+    // Update select options with appropriate quantity on load
+    $('.input-quantity').each(function () {
+        const itemQuantity = parseInt($(this).attr('data-item-quantity'), 10);
+        $(this).val(itemQuantity);
     });
 
-    let basketIdSet = false;
 
-    $('#basketForm').on('submit', function (event) {
-        event.preventDefault(); 
+    // Update item total on change of select option
+    $('#basket-items').on('change', '.input-quantity', function () {
+        const itemId = $(this).attr('data-item-id');
+        const itemDiv = $(`.basket-item-line[data-item-id=${itemId}]`);
 
-        $("#basketButton").text("Checking out...");
+        const itemPrice = parseFloat(itemDiv.attr('data-item-price')) || 0;
+        const itemQuantity = parseInt($(this).val()) || 1;
+        const itemTotalPrice = (itemPrice * itemQuantity).toFixed(2);
 
-        let url = '/takeaway/SaveBasket';
-        let items = $('#basketForm .basket-item-line');
-        let totalItems = items.length;
-        let itemsProcessed = 0;
+        itemDiv.attr('data-item-total-price', itemTotalPrice);
+        itemDiv.attr('data-item-quantity', itemQuantity);
+        itemDiv.find('.item-total-price').text(itemTotalPrice);
+        $(`.order-now-btn[data-item-id=${itemId}]`).attr('data-item-quantity', itemQuantity);
 
-        items.each(function () {
-            let itemData = {
-                id: $(this).find('.item-id').val(),
-                basket_id: $(this).find('.basket-id').val(),
-                dish_id: $(this).find('.dish-id').val(),
-                price: $(this).find('.price').val(),
-                quantity: $(this).find('.quantity').val(),
-            };
+        postBasket(itemId, itemTotalPrice, itemQuantity, 1);
+        calculateBasketTotal();
+        disableOrderButton();
+        console.log('Item id: ' + itemId + ' Item price ' + itemPrice + ' Total price ' + itemTotalPrice + ' Item quantity ' + itemQuantity);
+    });
 
+    // Disable order button when item type exceeds quantity of 5
+    function disableOrderButton() {
+        $('.order-now-btn').each(function () {
+            const itemId = $(this).attr('data-item-id');
+            const itemQuantity = parseInt($(`.basket-item-line[data-item-id=${itemId}]`).attr('data-item-quantity')) || 1;
+            $(this).attr('data-item-quantity', itemQuantity);
+
+            if (itemQuantity == 5) {
+                $(this).prop('disabled', true);
+            } else {
+                $(this).prop('disabled', false);
+            }
+
+        });
+    };
+
+    disableOrderButton();
+
+    // Calc total of basket 
+    function calculateBasketTotal() {
+        let basketTotal = 0;
+        $('.item-total-price').each(function () {
+            let priceText = $(this).text().trim();
+            let totalPrice = parseFloat(priceText.replace(/[^0-9.-]+/g, ''));
+            if (!isNaN(totalPrice)) {
+                basketTotal += totalPrice;
+            }
+        });
+
+        $('#basketSubTotal').text(basketTotal.toFixed(2));
+        console.log('Basket Total: ' + basketTotal.toFixed(2))
+    };
+
+    calculateBasketTotal();
+
+    // Remove item lines on click of x
+    $('#basket-items').on('click', '.close', function () {
+        const itemId = $(this).attr('data-item-id');
+
+        if (itemId) {
+            const itemDiv = $(`.basket-item-line[data-item-id=${itemId}]`);
+            postBasket(itemId, 0, 0, 0);
+            itemDiv.remove();
+            calculateBasketTotal()
+            console.log(`Item with item id '${itemId}' removed`);
+        } else {
+            console.error('Item id is undefined');
+        }
+        disableOrderButton();
+    });
+
+    // Post basket to database
+    function postBasket(itemId, itemTotalPrice, itemQuantity, itemStatusId) {
+
+        const orderCode = $(`.order-code`).attr('data-order-code'); // Set order code value
+        const itemData = {
+            order_id: 0,
+            order_code: orderCode,
+            item_id: itemId,
+            price: itemTotalPrice,
+            quantity: itemQuantity,
+            status_id: itemStatusId
+        };
+
+        // Ajax submission
+        $.ajax({
+            type: "POST",
+            url: '/takeaway/SaveBasket',
+            data: itemData,
+            success: function (data) {
+                console.log('Data saved:', data);
+                console.log('Sending data:', itemData);
+
+                if (data.id) {
+                    setTimeout(function () {
+                        $('#basket-items').find(`.basket-item-line[data-item-id=${itemId}] .item-id`).val(data.order_id); // Add id value to input after 100ms (wasn't working instantly)
+                    }, 100);
+
+                }
+
+                if (data.order_code) {
+                    setTimeout(function () {
+                        $('.order-code').attr('data-order-code', data.order_code); // Add order code value to input
+                        console.log('Data order code:', data.order_code);
+                    }, 100);
+
+                    // Update the url to ensure only one basket code is present
+                    const currentUrl = new URL(window.location.href);
+                    const params = new URLSearchParams(currentUrl.search);
+
+                    // Replace or set the url orderCode parameter
+                    params.set('orderCode', data.order_code);
+                    window.history.replaceState(null, null, `${currentUrl.pathname}?${params.toString()}`);
+
+                }
+                updateOrderButton();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.error('Error:', textStatus, errorThrown);
+                alert("An error has occurred saving the item data.");
+            }
+        });
+    };
+
+    $('#checkoutButton').on('click', function () {
+        const promises = [];
+
+        // Post all basket items with the updated status-id
+        $('#basket-items .basket-item-line').each(function () {
+            const itemId = $(this).attr('data-item-id');
+            const itemTotalPrice = parseFloat($(this).attr('data-item-total-price'));
+            const itemQuantity = parseInt($(this).attr('data-item-quantity'));
+            promises.push(postBasket(itemId, itemTotalPrice, itemQuantity, 2));
+        });
+
+        // Redirect to the checkout page after a short delay to ensure all posts are completed
+        Promise.all(promises).then(function () {
+            const orderCode = $(`.order-code`).attr('data-order-code');
+            window.location.href = `/Takeaway/Checkout?orderCode=${orderCode}`;
+            /*alert('Checkout order code: ' + orderCode);*/
+            console.log('Checkout order code: ', orderCode);
+        }).catch(function (error) {
+            console.error('Error posting basket items:', error);
+        });
+    });
+
+
+
+    // Takewaway Checkout Form //
+
+
+    // Get the orderCode parameter from the URL
+    const currentUrl = new URL(window.location.href);
+    const params = new URLSearchParams(currentUrl.search);
+    orderCode = params.get('orderCode') || '';
+
+    // Update the value of the input field with the orderCode value
+
+    $('#Order_code').val(orderCode);
+
+
+    // Update basket total text
+    $(function () {
+        let total = 0;
+
+        $('.item-total-price').each(function () {
+            let priceText = $(this).text().trim();
+            let price = parseFloat(priceText.replace(/[^0-9.-]+/g, ''));
+            if (!isNaN(price)) {
+                total += price;
+            }
+        });
+
+        $('#basketTotal').text(total.toFixed(2));
+    });
+
+    // Update checkout total text
+    $('#deliveryCost').on('DOMSubtreeModified', function () {
+        const basketTotalText = document.getElementById("basketTotal").textContent;
+        const deliveryCostText = this.textContent;
+        const basketTotal = parseFloat(basketTotalText.replace('£', ''));
+        const deliveryCost = parseFloat(deliveryCostText.replace('£', ''));
+        const total = basketTotal + deliveryCost;
+
+        $('#checkoutTotal').text('£ ' + total.toFixed(2));
+        $('#Total_price').val(total.toFixed(2));
+        console.log("Total:", total);
+        return total;
+    });
+
+    $.validator.addMethod("pattern", function (value, element, pattern) {
+        return this.optional(element) || new RegExp(pattern).test(value);
+    }, ""); // Add validation rule for post code
+
+    // Form validation
+    $('#checkoutForm').validate({
+
+        // Rules
+        ignore: [],
+        rules: {
+            First_name: {
+                required: true
+            },
+            Last_name: {
+                required: true
+            },
+            Email_address: {
+                required: true,
+                email: true
+            },
+            Address_Line_1: {
+                required: true,
+            },
+            Postal_town: {
+                required: true,
+            },
+            County: {
+                required: true,
+            },
+            Postal_code: {
+                required: true,
+                "pattern": "^[A-Z]{1,2}\\d[A-Z\\d]?\\s?\\d[A-Z]{2}$"
+            }
+        },
+
+        // Error messages
+        messages: {
+            First_name: {
+                required: "Please enter your first name"
+            },
+            Last_name: {
+                required: "Please enter your last name"
+            },
+            Email_address: {
+                required: "Please enter your email address",
+                email: "Please enter a valid email address"
+            },
+            Address_Line_1: {
+                required: "Please enter an address",
+            },
+            Postal_town: {
+                required: "Please enter the town or city where the address is located",
+            },
+            County: {
+                required: "Please enter the county where the address is located",
+            },
+            Postal_code: {
+                required: "Please enter the post code where the address is located",
+                pattern: "Please enter a valid post code"
+            }
+        },
+
+
+        // Highlight fields
+        highlight: function (element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('field-validation-valid');
+            error.insertAfter(element);
+        },
+
+
+        // Submission
+        submitHandler: function (form) {
+            let formData = new FormData(form);
+            let url = "/takeaway/SaveCheckout";
+
+            $("#saveCheckoutForm").text("Ordering...");
 
             $.ajax({
                 type: "POST",
                 url: url,
-                data: itemData,
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: function (data) {
-
-                    if (!basketIdSet) {
-                        $(".basket-id").val(data.basket_Id);
-                        basketIdSet = true;
-                    }
-
-                    itemsProcessed++;
-                    if (itemsProcessed === totalItems) {
-                        $("#basketButton").html('<i class="fa fa-check m-auto ms-0"></i><span class="me-auto">Proceeding to Checkout...</span>');
-
-                        setTimeout(function () {
-                            $("#basketButton").html('<i class="fa-solid fa-cart-shopping m-auto ms-0"></i><span class="me-auto">Checkout Now</span>');
-                        }, 2000);
-                    }
-
-
-                    console.log('Success:', data);
-                    console.log('Basket ID:', $(".basket-id").val());
-
+                    var UserID = data.Order_id;
+                    $("#saveCheckoutForm").html('<i class="fa fa-check  m-auto ms-0"></i><span class="me-auto">Order Saved</span>');
+                    $("#checkoutForm #Order_id").val(UserID);
+                    setTimeout(function () {
+                        $("#saveCheckoutForm").html('<i class="fa-regular fa-calendar m-auto ms-0"></i><span class="me-auto">Order Now</span>');
+                    }, 2000);
+                    $('#basket-items .basket-item-line').each(function () {
+                        const itemId = $(this).attr('data-item-id');
+                        const itemTotalPrice = parseFloat($(this).attr('data-item-total-price'));
+                        const itemQuantity = parseInt($(this).attr('data-item-quantity'));
+                        postBasket(itemId, itemTotalPrice, itemQuantity, 3);
+                    });
+                    window.location.href = `/Takeaway/Confirmation`;
                 },
                 timeout: 3000,
                 tryCount: 0,
                 retryLimit: 3,
                 error: function (xhr, textStatus, errorThrown) {
-                    console.error('Error:', textStatus, errorThrown);
                     if (textStatus === 'timeout') {
                         this.tryCount++;
                         if (this.tryCount <= this.retryLimit) {
@@ -275,282 +504,70 @@ $(function () {
                         return;
                     }
                     alert("An error has occurred saving the data.");
-                    $("#basketButton").html('<i class="fa fa-times m-auto ms-0"></i><span class="me-auto">Check out Failed</span>');
+                    $("#saveCheckoutForm").html('<i class="fa fa-times  m-auto ms-0"></i><span class="me-auto">Order Failed</span>');
                     return 0;
                 },
             });
-        });
+        }
     });
-});*/
 
+    // Trigger form submission on button click
+    $('#saveCheckoutForm').on('click', function () {
+        $('#checkoutForm').trigger('submit');
+    });
 
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Change price depending on delivery address
 $(function () {
-    // Variable to hold the basket_id
-    let basketId = '';
+    $("#Postal_town").on("blur", function () {
+        const town = $(this).val().trim();
+        let deliveryCost = "";
 
-    // Event handler for the "Order Now" button
-    $('.order-now-btn').on('click', function (event) {
-        event.preventDefault();
-
-        const dishName = $(this).data('dish-name');
-        const price = parseFloat($(this).data('price'));
-        const dishId = $(this).attr('id'); // dishId from data or attributes
-
-        // Add item to basket
-        addToBasket(dishId, dishName, price, 1);
-    });
-
-    function addToBasket(dishId, dishName, price) {
-        const basketItemsDiv = $('#basket-items');
-        const itemSelector = `.basket-item-line[item-id="${dishId}"]`;
-        let existingItem = basketItemsDiv.find(itemSelector);
-
-        if (existingItem.length > 0) {
-            // Update quantity and price for existing item
-            let quantitySelect = existingItem.find('.input-quantity');
-            let newQuantity = parseInt(quantitySelect.val()) + 1;
-            quantitySelect.val(newQuantity).trigger('change');
-            return;
-        }
-
-        // Create new item div with placeholders for item-id and other values
-        const newItemDiv = $('<div>')
-            .addClass('col-12 row align-items-start p-0 my-3 mx-0 basket-item-line')
-            .attr('item-id', dishId); // Set item-id to match the dishId
-
-        // HTML for the new item with hidden inputs
-        newItemDiv.html(`
-        <div class="col-auto p-0">
-            <button type="button" class="btn btn-danger btn-sm close" item-id="${dishId}">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-        <div class="col-7 p-0 ms-2 row">
-            <p class="card-title text-start p-0 m-0">${dishName}</p>
-            <p class="card-text text-start p-0 text-muted">£<span class="item-price">${price.toFixed(2)}</span></p>
-        </div>
-        <div class="col-auto ms-auto p-0">
-            <select class="basket input-quantity form-control-sm">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-        <input type="hidden" class="item-id" name="Id" value="">
-        <input type="hidden" class="basket-id" name="Basket_id" value="">
-        <input type="hidden" class="dish-id" name="Dish_id" value="${dishId}">
-        <input type="hidden" class="price" name="Price" value="${price.toFixed(2)}">
-        <input type="hidden" class="quantity" name="Quantity" value="1">
-        <input type="hidden" class="status-id" name="status_id" value="1">
-    `);
-
-        basketItemsDiv.append(newItemDiv);
-
-        // Send AJAX request to add the item
-        sendItemData(dishId, price, 1, 1);
-
-        // Attach change event to the select element to update the price
-        newItemDiv.find('.input-quantity').on('change', function () {
-            const quantity = parseInt($(this).val());
-            const basePrice = parseFloat(price);
-            const totalPrice = (basePrice * quantity).toFixed(2);
-            const statusId = parseInt(newItemDiv.find('.status-id').val(), 10);
-
-            // Update displayed price
-            newItemDiv.find('.item-price').text(totalPrice);
-
-            // Update hidden input values with total price and quantity
-            newItemDiv.find('.price').val(totalPrice);
-            newItemDiv.find('.quantity').val(quantity);
-
-            // Send AJAX request to update the item data
-            sendItemData(dishId, price, quantity, statusId);
-        });
-    }
-
-
-    // Use event delegation for the close button
-    $('#basket-items').on('click', '.close', function () {
-        console.log(`Delete button clicked`);
-        // Get the ID of the clicked close button from item-id attribute
-        const dishId = $(this).attr('item-id');
-
-        if (dishId) {
-            // Find the basket item line with the matching ID
-            const itemDiv = $(`.basket-item-line[item-id=${dishId}]`);
-
-            // Send the extracted data to your function
-            sendItemData(dishId, 0, 0, 0);
-
-            // Remove the item from the DOM
-            itemDiv.remove();
-
-            // Log the removal
-            console.log(`Item with dish ID '${dishId}' removed`);
-
+        if (town.toLowerCase() === "rochdale") {
+            deliveryCost = "&pound; 6.50";
+        } else if (town.toLowerCase() === "") {
+            deliveryCost = "Please enter an address";
         } else {
-            console.error('Dish ID is undefined');
+            deliveryCost = "&pound; 9.00";
         }
+
+        $("#deliveryCost").html(deliveryCost);
     });
 
+    $("#County").on("blur", function () {
+        const county = $(this).val().trim();
+        let deliveryAvaliable = "";
 
-    function sendItemData(dishId, price, quantity, statusId) {
-        // Ensure basketId is set before sending data
-        if (!basketId) {
-            // This is a placeholder to show basketId needs to be set before adding items
-            // Ideally, basketId would be obtained or set earlier in the flow
-            basketId = $('#basket-items').find('.basket-id').first().val();
+        if (county.toLowerCase() === "greater manchester") {
+            deliveryAvaliable = '';
+            $("#deliveryCost").show();
+        } else {
+            deliveryAvaliable = "Sorry, we do not deliver outside Greater Manchester";
+            $("#deliveryCost").hide();
         }
 
-        const itemId = $('#basket-items').find(`#basket-item-${dishId} .item-id`).val();
-        const itemData = {
-            id: itemId, // Initially empty and set by server
-            basket_id: basketId, // Use the same basket_id for all items
-            dish_id: dishId,
-            price: price.toFixed(2),
-            quantity: quantity,
-            status_id: statusId
-        };
-
-        $.ajax({
-            type: "POST",
-            url: '/takeaway/SaveBasket', // Ensure this URL is correct
-            data: itemData,
-            success: function (data) {
-                console.log('Item data saved:', data);
-                console.log('Sending data:', itemData);
-
-
-                // Update item-id if not set (assuming response contains the new id)
-                if (!itemId && data.id) {
-                    $('#basket-items').find(`#basket-item-${dishId} .item-id`).val(data.id);
-                }
-
-                // Set basket_id if not already set
-                if (!basketId && data.basket_Id) {
-                    $('#basket-items').find(`#basket-item-${dishId} .basket-id`).val(data.basket_Id);
-                    $('#checkoutButton').attr('href', `/Takeaway/Checkout?id=${data.basket_Id}`);
-
-                    const currentUrl = window.location.href;
-                    const separator = currentUrl.includes('?') ? '&' : '?';
-                    const newUrl = `${currentUrl}${separator}id=${data.basket_Id}`;
-                    window.history.replaceState(null, null, newUrl);
-                }
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                console.error('Error:', textStatus, errorThrown);
-                alert("An error has occurred saving the item data.");
-            }
-        });
-    }
-
-    /*$('#basketButton').on('click', function () {
-        $('#basketForm').trigger('submit');
+        $("#deliveryAvailable").html(deliveryAvaliable);
     });
 
-    $('#basketForm').on('submit', function (event) {
-        event.preventDefault();
+    $("input").on("blur", function () {
+        let firstName = $('#First_name').val();
+        let lastName = $('#Last_name').val();
+        let emailAddress = $('#Email').val();
+        let addressLine1 = $('#Autocomplete').val();
+        let postalTown = $('#Postal_town').val();
+        let county = $('#Administrative_area_level_2').val();
+        let postalCode = $('#Postal_code').val();
+        var address = addressLine1 + "<br />" +
+            postalTown + "<br />" +
+            county + "<br />" +
+            postalCode;
 
-        $("#basketButton").text("Checking out...");
-
-        // Previous form submission logic removed as per instructions
-    });*/
+        $('#yourName').text(firstName + " " + lastName);
+        $('#yourEmail').text(emailAddress);
+        $('#yourAddress').html(address);
+    });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Takewaway Checkout Form
-$('#saveCheckoutButton').on('click', function () {
-    $('#checkoutForm').trigger('submit');
-})
-
-$('#checkoutForm').on('submit', function (event) {
-    event.preventDefault(); // Prevent default form submission
-
-    // Your custom form submission logic here
-    console.log('Form submitted!');
-
-
-    $("#saveCheckoutButton").text("Checking out...");
-    // Optionally, you can use AJAX to submit the form data
-    // Example using jQuery's $.ajax() method
-    /*$.ajax({
-        url: '/takeaway/SaveTakeaway',
-        method: 'POST',
-        data: $(this).serialize(), // Serialize form data
-        success: function (response) {
-            console.log('Form submission successful');
-            // Handle success response
-            $("#saveCheckoutButton").html('<i class="fa fa-check  m-auto ms-0""></i><span class="me-auto">Checked out</span>');
-            setTimeout(function () {
-                $("#saveCheckoutButton").html('<i class="fa-solid fa-cart-shopping m-auto ms-0"></i><span class="me-auto">Checkout</span>');
-            }, 2000);
-        },
-        error: function (error) {
-            console.error('Form submission failed');
-            // Handle error response
-            $("#saveCheckoutButton").html('<i class="fa fa-times  m-auto ms-0""></i>Checkout Failed');
-        }
-    });*/
-
-});
-
-
 
 
 
@@ -558,7 +575,7 @@ $('#checkoutForm').on('submit', function (event) {
 // Booking Form
 $(function () {
 
-    // Initalise select2
+    // Time select2
     $("#Select_booking_time").select2({
         minimumResultsForSearch: Infinity
     });
@@ -570,10 +587,12 @@ $(function () {
         $('#Booking_time-error').hide();
     });
 
-    // Initialise form validation
+    // Insert dietary id into input (need to do)
+
+    // Form validation
     $('#bookingForm').validate({
 
-        // Validation rules
+        // Rules
         ignore: [],
         rules: {
             First_name: {
@@ -625,7 +644,7 @@ $(function () {
         },
 
 
-        // Highlight/unhighlight fields
+        // Highlight fields
         highlight: function (element) {
             $(element).addClass('is-invalid');
         },
@@ -639,7 +658,7 @@ $(function () {
         },
 
 
-        // Form submission
+        // Submission
         submitHandler: function (form) {
             let formData = new FormData(form);
             let url = "/booking/SaveBooking";
@@ -659,6 +678,8 @@ $(function () {
                     setTimeout(function () {
                         $("#saveBookingForm").html('<i class="fa-regular fa-calendar m-auto ms-0"></i><span class="me-auto">Book Now</span>');
                     }, 2000);
+                    /*window.location.href = `/Takeaway/Confirmation`;*/
+
                 },
                 timeout: 3000,
                 tryCount: 0,

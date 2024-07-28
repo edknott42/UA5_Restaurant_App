@@ -10,16 +10,19 @@
 
 <div class="col-12 p-0 m-0 row">
     <div class="col-md-7 p-0 m-0 d-none d-md-block">
-        <img class="img-fluid h-100" src="https://plus.unsplash.com/premium_photo-1677686707480-585883c4f43b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+        <img class="img-fluid h-100" src="https://plus.unsplash.com/premium_photo-1677686707480-585883c4f43b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Bruschetta Pomodoro">
     </div>
     <div class="col-md-5 p-4 m-0 d-flex flex-column text-center text-white bg-dark">
         <h1 class="display-6 text-start"><strong>Your Dietary Requirements</strong></h1>
         <h2 class="display-7 mb-3 text-start">Fill in your details</h2>
-
-        <partial name="~/Views/Dietary/_dietary.cshtml" />
-
         <div class="col-12 p-0 m-0 mt-auto row">
-            <button type="submit" class="btn btn-primary">Book Now</button>
+            <button type="button" class="btn btn-secondary d-flex border w-100 dietaryButton mb-2" data-toggle="modal" data-target="#dietaryModal">
+                <i class="fa-solid fa-utensils m-auto ms-0"></i>
+                <span class="me-auto">Enter Dietary Requirements</span>
+            </button>
         </div>
     </div>
 </div>
+
+<!-- dietary Modal -->
+<partial name="~/Views/Dietary/_dietary.cshtml" />

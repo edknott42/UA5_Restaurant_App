@@ -36,7 +36,7 @@ namespace UA5_Restaurant_App.Controllers
             {
                 basketForm = Basket.SaveBasket(basketForm);
 
-                var response = new { success = true, basketForm.Id, basketForm.Basket_Id };
+                var response = new { success = true, basketForm.Item_Id, basketForm.Order_code };
                 return Ok(response);
             }
             catch (SqlException ex) // Catch SQL-related exceptions
@@ -50,17 +50,29 @@ namespace UA5_Restaurant_App.Controllers
         {
             ViewData["PageClass"] = "checkout";
 
-            var basketForm = _context.BasketView.ToList();
-            return View(basketForm);
+            var model = new CheckoutFormModel
+            {
+                BasketFormModel = _context.BasketView.ToList(),
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult SaveCheckout(BasketFormModel checkoutForm)
+        public /*async Task<*/IActionResult/*>*/ SaveCheckout(CheckoutFormModel checkoutForm)
         {
             try
             {
-                /*checkoutForm = Menu.SaveBasket(checkoutForm);*/
-                return RedirectToAction("Confirmation");
+                checkoutForm = Checkouts.SaveCheckout(checkoutForm);
+
+                /*string toEmail = $"{checkoutForm.Email_address}";
+                string subject = "Checkout Confirmation";
+                string body = $"Thank you for your purchase, {checkoutForm.First_name} {checkoutForm.Last_name} ! Your order has been received.";
+
+                await EmailHelper.SendEmailAsync(toEmail, subject, body);*/
+
+                var response = new { success = true, checkoutForm.Order_id, checkoutForm.Order_code };
+                return Ok(response);
             }
             catch (SqlException ex) // Catch SQL-related exceptions
             {
@@ -71,8 +83,35 @@ namespace UA5_Restaurant_App.Controllers
 
         public IActionResult Confirmation()
         {
+            ViewData["PageClass"] = "confirmation";
             return View();
         }
+
+        /*public static class EmailHelper
+        {
+            public static async Task SendEmailAsync(string toEmail, string subject, string body)
+            {
+                var fromEmail = "edknott04@gmail.com";
+                var fromPassword = "";
+
+                using (var client = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    client.Credentials = new NetworkCredential(fromEmail, fromPassword);
+                    client.EnableSsl = true;
+
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress(fromEmail),
+                        Subject = subject,
+                        Body = body,
+                        IsBodyHtml = true,
+                    };
+                    mailMessage.To.Add(toEmail);
+
+                    await client.SendMailAsync(mailMessage);
+                }
+            }
+        }*/
 
     }
 }
